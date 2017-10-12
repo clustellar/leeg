@@ -1,0 +1,29 @@
+version: "3"
+services:
+  rethinkdb:
+    image: rethinkdb:latest
+    volumes:
+      - ./data/rethinkdb/rdb01:/data
+    ports:
+      - 8081:8080
+  api:
+    build: ./api
+    volumes:
+      - ./api:/api
+    working_dir: /api
+    command: npm start
+    depends_on:
+      - rethinkdb
+    ports:
+      - 3030:3030
+    environment:
+      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+  app:
+    build: ./app
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - 8080:8080

@@ -1,0 +1,50 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "rethinkdb": {
+    "db": "api",
+    "servers": [
+      {
+        "host": "rethinkdb",
+        "port": "28015"
+      }
+    ]
+  },
+  "authentication": {
+    "secret": "1e076b713e72cd3a62c6821feb3015f0963c3a452002e720e3fd418990a42f6aadfc1ce17fef37be8f816f42d3be698f8695014f3d1e68c9fe052fe8c5ad0a3a00e79253be6b8af70d136cc7c7218b06221229c957daf9fc86367599f7d2e419bb1b744ce1e31f0cb50add7a24e38f3464cb8cf2eb588f1097ee80d93ebf441bd17f3f28e6599e6697ee7734c661d6e8ac23d35fed79a8e970765e68964cd574dee09ffc5486c9eaf3db98b0ffb2f4f53ecc2d0b616a2442a12f82c1fa7c8118902279f37682708fea66507f8d3b7c5ddf7e9f0f07e90fa8c4e7ac86924ade39ecfcc30c323fc02f520ecaf2fd13749148ee6505f292753dfd8e37f57017745b",
+    "strategies": [
+      "jwt"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "google": {
+      "clientID": "GOOGLE_CLIENT_ID",
+      "clientSecret": "GOOGLE_CLIENT_SECRET",
+      "successRedirect": "/",
+      "scope": [
+        "profile email"
+      ]
+    },
+    "cookie": {
+      "enabled": true,
+      "name": "feathers-jwt",
+      "httpOnly": false,
+      "secure": false
+    }
+  }
+}
