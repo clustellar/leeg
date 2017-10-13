@@ -13,6 +13,7 @@ const hooks = require('feathers-hooks');
 const socketio = require('feathers-socketio');
 const handler = require('feathers-errors/handler');
 const notFound = require('feathers-errors/not-found');
+const connected = require('./middleware/connected')
 
 const middleware = require('./middleware');
 const services = require('./services');
@@ -42,9 +43,8 @@ app.configure(hooks());
 
 app.configure(rethinkdb);
 
-
 // app.configure(primus({ transformer: 'websockets' }));
-app.configure(socketio())
+app.configure(socketio(function (io) { connected(io, app) }))
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
 app.configure(authentication);

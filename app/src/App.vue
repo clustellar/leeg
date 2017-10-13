@@ -1,23 +1,19 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
+    <messages></messages>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
-</script>
+  import 'bulma/css/bulma.css'
+  import 'buefy/lib/buefy.css'
+  import Messages from '@/components/messages'
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  export default {
+    name: 'app',
+    components: {
+      Messages
+    }
+  }
+</script>
