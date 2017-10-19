@@ -13,21 +13,20 @@ const hooks = require('feathers-hooks');
 const socketio = require('feathers-socketio');
 const handler = require('feathers-errors/handler');
 const notFound = require('feathers-errors/not-found');
-const connected = require('./middleware/connected')
+const rest = require('feathers-rest');
 
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
-
 const rethinkdb = require('./rethinkdb');
-
 const authentication = require('./authentication');
+const connected = require('./middleware/connected');
 
 const app = feathers();
 
 // Load app configuration
 app.configure(configuration());
-// Enable CORS, security, compression, favicon and body parsing
+app.use(rest());
 app.use(cors());
 app.use(helmet());
 app.use(compress());
@@ -39,7 +38,6 @@ app.use('/', feathers.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(hooks());
-
 
 app.configure(rethinkdb);
 

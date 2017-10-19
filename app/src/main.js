@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import Buefy from 'buefy'
+import Api from '@/api'
 
 Vue.use(Buefy)
 Vue.config.productionTip = false
@@ -15,5 +16,8 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  beforeCreate () {
+    this.api = Api(this)
+  }
 })

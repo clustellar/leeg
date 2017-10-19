@@ -1,29 +1,62 @@
 version: "3"
 services:
+  kong:
+    image: kong:latest
+    volumes:
+      - ./tls:/tls
+    ports:
+      - 8000:8000
+      - 8443:8443
+    environment:
+      - KONG_LOG_LEVEL=notice
+      - KONG_DATABASE=postgres
+      - KONG_PG_DATABASE=kong
+      - KONG_PG_HOST=postgres
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kongitnow123
+      - KONG_SSL_CERT=/tls/cert.pem
+      - KONG_SSL_CERT_KEY=/tls/cert.pem
+    depends_on:
+      - postgres
+  dashboard:
+    image: pgbi/kong-dashboard:latest
+    depends_on:
+      - kong
+    ports:
+      - 8888:8080
+  postgres:
+    image: postgres:alpine
+    volumes:
+      - ./data/postgres:/var/lib/postgres/data
+    environment:
+      - POSTGRES_DB=kong
+      - POSTGRES_USER=kong
+      - POSTGRES_PASSWORD=kongitnow123
   rethinkdb:
     image: rethinkdb:latest
     volumes:
       - ./data/rethinkdb/rdb01:/data
-    ports:
-      - 8081:8080
-  api:
-    build: ./api
+  horizon:
+    image: rethinkdb/horizon
+    command: su -s /bin/sh horizon -c "hz serve --dev --connect rethinkdb://rethinkdb:28015 --bind all /api"
     volumes:
       - ./api:/api
-    working_dir: /api
-    command: npm start
-    depends_on:
-      - rethinkdb
-    ports:
-      - 3030:3030
+      - ./tls:/tls
     environment:
-      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
-      - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
-  app:
+      - HZ_BIND=0.0.0.0
+      - HZ_PORT=8080
+      - HZ_AUTH_GOOGLE_ID=$GOOGLE_CLIENT_ID
+      - HZ_AUTH_GOOGLE_SECRET=$GOOGLE_CLIENT_SECRET
+      - HZ_AUTH_GOOGLE_REDIRECT_URL=https://localhost:8443/leeg/
+  leeg:
     build: ./app
     volumes:
       - ./app:/app
+    ports:
+      - 8081:8080
     working_dir: /app
     command: npm run dev
-    ports:
-      - 8080:8080
+    environment:
+      - API_SECURE=true
+      - API_HOST=localhost:8443
+      - API_PATH=horizon

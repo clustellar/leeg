@@ -14,10 +14,15 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "@horizon/client": "^2.0.0",
     "feathers": "^2.2.2",
-    "feathers-primus": "^2.2.0",
-    "primus": "^7.1.0",
-    "primus-emitter": "^3.1.1",
+    "feathers-authentication-client": "^0.3.3",
+    "feathers-hooks": "^2.1.0",
+    "feathers-reactive": "^0.5.3",
+    "feathers-vuex": "^1.0.4",
+    "horizon": "^2.0.0",
+    "localstorage-memory": "^1.0.2",
+    "rxjs": "^5.4.3",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0"
   },

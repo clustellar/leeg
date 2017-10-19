@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <b-loading :active="isSigningIn" :can-cancel="true"></b-loading>
     <router-view/>
     <messages></messages>
   </div>
@@ -12,6 +13,11 @@
 
   export default {
     name: 'app',
+    data () {
+      return {
+        isSigningIn: true
+      }
+    },
     components: {
       Messages
     }

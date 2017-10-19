@@ -1,5 +1,6 @@
 const authentication = require('feathers-authentication');
 const jwt = require('feathers-authentication-jwt');
+const alerts = require('./middleware/alerts');
 
 const oauth2 = require('feathers-authentication-oauth2');
 const GoogleStrategy = require('passport-google-oauth20');
@@ -27,6 +28,11 @@ module.exports = function () {
       ],
       remove: [
         authentication.hooks.authenticate('jwt')
+      ]
+    },
+    after: {
+      create: [
+        alerts.authenticated(app)
       ]
     }
   });

@@ -5,19 +5,21 @@
 </template>
 
 <script>
-  import { app } from '@/services'
+  import { MessageTypes } from '@/store/mutation-types'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Messages',
     data () {
       return {}
     },
+    computed: {
+      ...mapGetters({
+        messages: MessageTypes.all
+      })
+    },
     mounted () {
-      app.io.on('toast', opts => this.$toast.open(opts))
-      app.io.on('alert', opts => this.$dialog.alert(opts))
-      app.io.on('confirm', opts => this.$dialog.confirm(opts))
-      app.io.on('prompt', opts => this.$dialog.prompt(opts))
-      app.io.on('snackbar', opts => this.$snackbar.open(opts))
+      this.$store.dispatch(MessageTypes.fetch)
     }
   }
 </script>

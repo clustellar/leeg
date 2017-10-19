@@ -1,10 +1,10 @@
 FROM node:alpine
 
-RUN npm install --production feathers feathers-socketio express primus socket.io 
+RUN npm install express @horizon/server
 
 WORKDIR /api
 
 COPY ./ /api
 
-CMD npm start
+CMD node index.js
 

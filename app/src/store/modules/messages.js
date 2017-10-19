@@ -1,4 +1,3 @@
-import * as services from '@/services'
 import { MessageTypes } from '../mutation-types'
 
 const state = {
@@ -13,19 +12,19 @@ const getters = {
 // actions
 const actions = {
   [MessageTypes.fetch] ({ commit }, opts) {
-    services.messageService.find(opts || {}).then(resp => {
-      commit(MessageTypes.fetch, resp.data)
-    })
+    // services.messageService.find(opts || {}).then(resp => {
+    //   commit(MessageTypes.fetch, resp.data)
+    // })
   },
   [MessageTypes.add] ({ commit }) {
-    services.messageService.on('created', function (message) {
-      commit(MessageTypes.add, message)
-    })
+    // services.messageService.on('created', function (message) {
+    //   commit(MessageTypes.add, message)
+    // })
   },
   [MessageTypes.remove] ({ commit }) {
-    services.messageService.on('removed', function (message) {
-      commit(MessageTypes.remove, message)
-    })
+    // services.messageService.on('removed', function (message) {
+    //   commit(MessageTypes.remove, message)
+    // })
   },
   [MessageTypes.clear] ({ commit }) {
     commit(MessageTypes.clear)
