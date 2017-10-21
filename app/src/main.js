@@ -16,8 +16,8 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
-  beforeCreate () {
-    this.api = Api(this)
-  }
+  created () {
+    this.api = Api(process.env.WEBSOCKET)
+  },
+  components: { App }
 })

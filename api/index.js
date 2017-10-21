@@ -1,31 +1,35 @@
-#!/usr/bin/env node
-'use strict'
+var http = require('http')
+  , express = require('express')
+  , bodyParser = require('body-parser')
+  , Primus = require('./lib/primus')
+  , GoogleOauth = require('./lib/google-oauth')
+  , handlers = require('./lib/handlers')
+  , PORT = process.env.PORT || 3030
+  , GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+  , GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
+;
 
-const express = require('express');
-const horizon = require('@horizon/server');
-const cors = require('cors');
-const PORT = process.env.PORT || 3030;
-
-const app = express();
-
-app.use(cors);
-app.options('*', cors()); // allow preflight
-
-const httpServer = app.listen(PORT);
-const options = {
-    project_name: 'api',
-    rdb_host: process.env.HZ_RDB_HOST,
-    rdb_port: process.env.HZ_RDB_PORT,
-    access_control_allow_origin: '*',
-    auth: {
-      token_secret: 'blah-blah-blah-ok123zz',
-      success_redirect: '/',
-      allow_unauthenticated: false
-    }
+var loginCallback = function (accessToken, refreshToken, profile, done) {
+  console.log('LOGGED IN: ', profile);
+  done();
 };
 
-const horizonServer = horizon(httpServer, options);
+var app = express();
+var server = http.createServer(app);
 
-horizonServer.add_auth_provider(horizon.auth.google, { id: process.env.HZ_AUTH_GOOGLE_ID, secret: process.env.HZ_AUTH_GOOGLE_SECRET, path: 'google' });
+// parser json body
+app.use(bodyParser());
 
-console.log('Listening on port 8181.');
+// primus websocket handler
+Primus(server, { transformer: 'uws' });
+
+// middleware
+GoogleOauth(app, { clientID: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET, success: loginCallback });
+
+app.get('/', function (req, res) {
+  res.send('Hello World');
+});
+
+app.route('/users').get(handlers.user.get);
+
+server.listen(PORT, function () { console.log('Listening on port ' + PORT) });

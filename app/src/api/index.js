@@ -1,20 +1,26 @@
-import Horizon from '@horizon/client/dist/horizon-dev.js'
+var Primus = window.Primus
+var primus = null
+console.log('PRIMUS: ', Primus)
 
-const secure = !!process.env.API_SECURE
-const host = process.env.API_HOST || 'localhost'
-const path = process.env.API_PATH || 'horizon'
+export default function (url) {
+  console.log('URL: ', url)
+  primus = primus || Primus('ws://localhost:3030')
+  window.primus = primus
 
-export default function (app) {
-  const hz = app.horizon = new Horizon({ secure: secure, host: host, path: path, authType: 'token' })
+  primus.news = primus.substream('news')
 
-  if (!hz.hasAuthToken()) {
-    app.$toast.open({ type: 'is-warning', message: 'Loggin in...' })
-    hz.authEndpoint('google').subscribe((endpoint) => {
-      window.location.replace(endpoint)
-    })
-  } else {
-    app.$toast.open({ type: 'is-success', message: 'You are already logged in!' })
-  }
+  primus.news.on('toast', function (data) {
+    console.log('TOAST RECV: ', data)
+  })
 
-  hz.connect()
+  primus.on('toast', function (data) {
+    console.log('base toast', data)
+  })
+
+  primus.news.on('data', function (data) {
+    console.log('CLIENT RECV NEWS: ', data)
+    primus.news.write('I got your news!')
+  })
+
+  return primus
 }
