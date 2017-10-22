@@ -6,3 +6,11 @@ export const MessageTypes = {
   remove: 'Message.remove',
   clear: 'Message.clearAll'
 }
+
+export const GlobalTypes = {
+  currentUser: 'currentUser',
+  isSignedIn: 'isSignedIn',
+  signin: 'SignIn',
+  signout: 'SignOut',
+  signedout: 'SignedOut'
+}

@@ -1,6 +1,5 @@
 var Primus = window.Primus
 var primus = null
-console.log('PRIMUS: ', Primus)
 
 export default function (url) {
   console.log('URL: ', url)

@@ -5,6 +5,10 @@ services:
     volumes:
       - ./data/rethinkdb/rdb01:/data
     command: rethinkdb --bind all --initial-password rdb-init-pwd-zxcvZXCV
+    ports:
+      - 8000:8080
+  redis:
+    image: redis:alpine
   api:
     build: ./api
     command: node index.js
@@ -20,8 +24,14 @@ services:
       - DB_PASS=rdb-init-pwd-zxcvZXCV
       - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
       - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SESSION_SECRET=redis-secret-foo-bar-baz-zzz
+      - SESSION_RETRIES=5
+      - APP_REDIRECT_URL=http://localhost:8080/
     depends_on:
       - rethinkdb
+      - redis
   app:
     build: ./app
     volumes:

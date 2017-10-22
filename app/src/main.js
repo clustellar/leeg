@@ -7,7 +7,11 @@ import store from './store'
 import Buefy from 'buefy'
 import Api from '@/api'
 
-Vue.use(Buefy)
+import 'font-awesome/css/font-awesome.css'
+import '@/assets/bulma/css/bulma.css'
+import 'buefy/lib/buefy.css'
+
+Vue.use(Buefy, { defaultIconPack: 'fa', defaultContainerElement: '#app' })
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

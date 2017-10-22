@@ -1,9 +1,10 @@
 var thinky = require('./rdb')
   , User = require('../models/user')
+  , parser = require('./parser')
   , handleError = require('./error-handler')
 ;
 
-module.exports = {
+var handlers = {
   user: {
     get: function (req, res, next) {
       User.orderBy({ index: 'createdAt' }).run().then(function (result) {
@@ -12,3 +13,5 @@ module.exports = {
     }
   }
 }
+
+module.exports = handlers;
