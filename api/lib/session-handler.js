@@ -11,7 +11,8 @@ var sessionMiddleware = session({
   store: new RedisStore({ host: REDIS_HOST, port: REDIS_PORT }),
   secret: SESSION_SECRET,
   resave: true,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: true
 });
 
 module.exports = function () {

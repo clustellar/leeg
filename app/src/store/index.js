@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 import * as getters from './getters'
 import messages from './modules/messages'
+import global from './modules/global'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
+    global,
     messages
   },
   strict: debug

@@ -31,16 +31,14 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('USER BY ID: ', id);
   User.get(id).then(function(user) {
     done(null, user);
-  }).catch(function (err) {
-    done(err);
+  }).catch(function () {
+    done(null, null);
   })
 });
 
 module.exports = function (app) {
-  console.log('registering google strategy...')
   app.use(passport.initialize());
   app.use(passport.session());
   

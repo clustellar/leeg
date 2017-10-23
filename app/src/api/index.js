@@ -1,25 +1,22 @@
-var Primus = window.Primus
-var primus = null
+import axios from 'axios'
+import primus from './primus'
 
-export default function (url) {
-  console.log('URL: ', url)
-  primus = primus || Primus('ws://localhost:3030')
-  window.primus = primus
+var parseData = function (resp) {
+  return resp.data
+}
 
-  primus.news = primus.substream('news')
+var api = axios.create({
+  baseURL: process.env.API || 'http://localhost/',
+  timeout: 10000
+})
 
-  primus.news.on('toast', function (data) {
-    console.log('TOAST RECV: ', data)
-  })
+var userApi = {
+  me: function () {
+    return api.get('/me').then(parseData)
+  }
+}
 
-  primus.on('toast', function (data) {
-    console.log('base toast', data)
-  })
-
-  primus.news.on('data', function (data) {
-    console.log('CLIENT RECV NEWS: ', data)
-    primus.news.write('I got your news!')
-  })
-
-  return primus
+export default {
+  user: userApi,
+  primus: primus
 }

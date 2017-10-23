@@ -39,8 +39,8 @@ services:
     ports:
       - 8080:8080
     environment:
-      - API='http://localhost:3030'
-      - WEBSOCKET='http://localhost:3030'
+      - API=http://localhost:3030
+      - WEBSOCKET=http://localhost:3030
     working_dir: /app
     command: npm run dev
     depends_on:

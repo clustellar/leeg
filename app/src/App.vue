@@ -12,6 +12,8 @@
   import 'buefy/lib/buefy.css'
   import Messages from '@/components/messages'
   import Navbar from '@/components/Navbar'
+  import Api from '@/api'
+  import { GlobalTypes } from '@/store/mutation-types'
 
   export default {
     name: 'app',
@@ -19,6 +21,16 @@
       return {
         isSigningIn: false
       }
+    },
+    mounted () {
+      this.$store.dispatch(GlobalTypes.getCurrentUser)
+
+      Api.primus.on('user:me', (user) => this.$store.dispatch(GlobalTypes.setCurrentUser, user))
+      Api.primus.on('toast', (opts) => this.$toast.open(opts))
+      Api.primus.on('snackbar', (opts) => this.$snackbar.open(opts))
+      Api.primus.on('dialog:alert', (opts) => this.$dialog.alert(opts))
+      Api.primus.on('dialog:confirm', (opts) => this.$dialog.confirm(opts))
+      Api.primus.on('dialog:prompt', (opts) => this.$dialog.prompt(opts))
     },
     components: {
       Navbar,

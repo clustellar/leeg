@@ -8,21 +8,20 @@ var User = thinky.createModel('users', {
   email: type.string(),
   gender: type.string(),
   photo: type.string(),
-  createdAt: type.date().default(r.now())
+  createdAt: type.date().default(r.now()),
+  updatedAt: type.date().default(r.now())
 })
 
 User.ensureIndex('createdAt');
 
 User.findOrCreate = function (id, attrs) {
-  console.log('FIND OR CREATE: ', id);
-  return User.get(id).then(function (user) {
-    console.log('user already exists', user);
-    return user.update(attrs);
-  })
-  .catch(function (err) {
-    console.log('Creating new user...', err);
-    var user = new User(attrs);
-    return user.save();
+  return User.get(id).update(Object.assign({ updatedAt: r.now() }, attrs)).run().error(function (err) {
+    if (err instanceof thinky.Errors.DocumentNotFound) {
+      var user = new User(Object.assign({ id: id }, attrs)); // if error is document not found, then no user exists and create the new user
+      return user.save();
+    } else {
+      throw new Error(err);
+    }
   })
 }
 

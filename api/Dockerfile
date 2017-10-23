@@ -1,10 +1,9 @@
 FROM node:slim
 
-RUN npm install express body-parser \
-  express-session connect-redis \
+RUN npm install express body-parser cors \
   rethinkdbdash thinky \
   uws primus substream primus-emit \
-  passport passport-google-oauth
+  passport passport-google-oauth passport-jwt
 
 WORKDIR /api
 

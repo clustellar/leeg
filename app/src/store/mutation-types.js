@@ -9,8 +9,6 @@ export const MessageTypes = {
 
 export const GlobalTypes = {
   currentUser: 'currentUser',
-  isSignedIn: 'isSignedIn',
-  signin: 'SignIn',
-  signout: 'SignOut',
-  signedout: 'SignedOut'
+  getCurrentUser: 'getCurrentUser',
+  setCurrentUser: 'setCurrentUser'
 }
