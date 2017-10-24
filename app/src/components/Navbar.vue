@@ -21,7 +21,7 @@
             <b-icon icon="caret-down"></b-icon>
           </a>
           <b-dropdown-item custom>
-            <b>{{ currentUser.name }}</b>
+            <b>{{ currentUser.displayName }}</b>
           </b-dropdown-item>
           <hr class="dropdown-divider">
           <b-dropdown-item>
@@ -64,7 +64,7 @@
             Sign in
           </a>
           <b-dropdown-item>
-            <a href='http://localhost:3030/auth/google'>Sign in with Google</a>
+            <a :href='signInUrl'>Sign in with Google</a>
           </b-dropdown-item>
         </b-dropdown>
       </div>
@@ -82,18 +82,13 @@
       return {
         logo,
         navigation: 'home',
-        loginURL: process.env.API + '/auth/google'
+        signInUrl: process.env.API + '/auth/google'
       }
     },
     computed: {
       ...mapGetters({
         currentUser: GlobalTypes.currentUser
       })
-    },
-    methods: {
-      signout () {
-        this.$store.dispatch(GlobalTypes.signout)
-      }
     }
   }
 </script>

@@ -12,7 +12,8 @@ var sessionMiddleware = session({
   secret: SESSION_SECRET,
   resave: true,
   saveUninitialized: false,
-  cookie: true
+  cookie: true,
+  httpOnly: true
 });
 
 module.exports = function () {

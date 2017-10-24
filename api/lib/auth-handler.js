@@ -1,9 +1,11 @@
 var express = require('express')
   , passport = require('passport')
+  , jwt = require('jsonwebtoken')
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
   , User = require('../models/user')
   , handlers = require('./handlers')
   , parser = require('./parser')
+  , SESSION_SECRET = process.env.SESSION_SECRET || ''
   , GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
   , GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
   , GOOGLE_CLIENT_SCOPE = process.env.GOOGLE_CLIENT_SCOPE ? process.env.GOOGLE_CLIENT_SCOPE.split(' ') : ['profile email']
@@ -41,9 +43,9 @@ passport.deserializeUser(function(id, done) {
 module.exports = function (app) {
   app.use(passport.initialize());
   app.use(passport.session());
-  
+
   app.get('/auth/google', passport.authenticate('google', { scope: GOOGLE_CLIENT_SCOPE }));
   app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), function (req, res) {
-    res.redirect(APP_REDIRECT_URL);
+    res.redirect(APP_REDIRECT_URL + '#/token/' + req.user.sessionSecret);
   });
 }

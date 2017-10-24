@@ -10,6 +10,13 @@ export default new Router({
       path: '/',
       name: 'HomePage',
       component: HomePage
+    },
+    {
+      path: '/token/:token',
+      beforeEnter: function (to, from, next) {
+        window.sessionStorage.setItem('token', to.params.token) // set session token
+        next('/')
+      }
     }
   ]
 })

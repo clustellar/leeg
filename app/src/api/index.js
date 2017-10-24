@@ -13,6 +13,9 @@ var api = axios.create({
 var userApi = {
   me: function () {
     return api.get('/me').then(parseData)
+  },
+  whoami: function (token) {
+    return api.get('/whoami', { params: { token: token } }).then(parseData)
   }
 }
 

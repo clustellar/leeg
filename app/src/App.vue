@@ -23,7 +23,7 @@
       }
     },
     mounted () {
-      this.$store.dispatch(GlobalTypes.getCurrentUser)
+      this.$store.dispatch(GlobalTypes.getCurrentUser, window.sessionStorage.getItem('token'))
 
       Api.primus.on('user:me', (user) => this.$store.dispatch(GlobalTypes.setCurrentUser, user))
       Api.primus.on('toast', (opts) => this.$toast.open(opts))

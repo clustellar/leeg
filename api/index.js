@@ -25,11 +25,10 @@ app.get('/', function (req, res) {
 });
 
 app.get('/me', function (req, res) {
-  console.log('REQ.USER', req.user)
-  console.log('REQ.SESS', req.session)
   res.send(JSON.stringify(req.user, null, 2));
 })
 
+app.route('/whoami').get(handlers.user.whoami);
 app.route('/users').get(handlers.user.get);
 
 server.listen(PORT, function () { console.log('Listening on port ' + PORT) });

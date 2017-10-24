@@ -12,8 +12,17 @@ const getters = {
 
 // actions
 const actions = {
-  [GlobalTypes.getCurrentUser] ({ commit }) {
-    Api.user.me().then(function (user) {
+  [GlobalTypes.signIn] ({ commit }, provider) {
+    Api.auth.signIn(provider).then(function (user) {
+      console.log('Signed In!', user)
+      commit(GlobalTypes.setCurrentUser, user)
+    })
+    .catch(function (err) {
+      console.error('Unable to sign in.', err)
+    })
+  },
+  [GlobalTypes.getCurrentUser] ({ commit }, token) {
+    Api.user.whoami(token).then(function (user) {
       console.log('ME: ', user)
       if (user) {
         commit(GlobalTypes.setCurrentUser, user)
