@@ -8,7 +8,8 @@ export const MessageTypes = {
 }
 
 export const GlobalTypes = {
+  signIn: 'SignIn',
+  signOut: 'signOut',
   currentUser: 'currentUser',
-  getCurrentUser: 'getCurrentUser',
-  setCurrentUser: 'setCurrentUser'
+  sessionToken: 'session-token'
 }

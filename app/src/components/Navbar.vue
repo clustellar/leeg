@@ -89,6 +89,11 @@
       ...mapGetters({
         currentUser: GlobalTypes.currentUser
       })
+    },
+    methods: {
+      signout () {
+        this.$store.dispatch(GlobalTypes.signOut)
+      }
     }
   }
 </script>

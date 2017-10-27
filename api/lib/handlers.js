@@ -6,12 +6,19 @@ var thinky = require('./rdb')
 var handlers = {
   user: {
     whoami: function (req, res, next) {
-      User.filter({ sessionSecret: req.params.token }).limit(1).run().then(function (resp) {
-        res.send(JSON.stringify(resp[0]));
+      if (!req.query.token) {
+        return res.send(null);
+      }
+      User.filter({ sessionSecret: req.query.token }).run().then(function (resp) {
+        if (resp.length === 1) {
+          return res.send(JSON.stringify(resp[0]));
+        } else {
+          res.send(null);
+        }
       }).error(handlers.error(res));
     },
     get: function (req, res, next) {
-      User.orderBy({ index: 'createdAt' }).limit(1).run().then(function (result) {
+      User.orderBy({ index: 'createdAt' }).run().then(function (result) {
         res.send(JSON.stringify(result[0]));
       }).error(handlers.error(res));
     }

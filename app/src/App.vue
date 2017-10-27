@@ -23,9 +23,8 @@
       }
     },
     mounted () {
-      this.$store.dispatch(GlobalTypes.getCurrentUser, window.sessionStorage.getItem('token'))
-
-      Api.primus.on('user:me', (user) => this.$store.dispatch(GlobalTypes.setCurrentUser, user))
+      this.$store.dispatch(GlobalTypes.signIn)
+      // Api.primus.on('user:me', (user) => this.$store.dispatch(GlobalTypes.currentUser, user))
       Api.primus.on('toast', (opts) => this.$toast.open(opts))
       Api.primus.on('snackbar', (opts) => this.$snackbar.open(opts))
       Api.primus.on('dialog:alert', (opts) => this.$dialog.alert(opts))

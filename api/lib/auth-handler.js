@@ -46,6 +46,6 @@ module.exports = function (app) {
 
   app.get('/auth/google', passport.authenticate('google', { scope: GOOGLE_CLIENT_SCOPE }));
   app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), function (req, res) {
-    res.redirect(APP_REDIRECT_URL + '#/token/' + req.user.sessionSecret);
+    res.redirect(APP_REDIRECT_URL + '#/set-token/' + req.user.sessionSecret);
   });
 }

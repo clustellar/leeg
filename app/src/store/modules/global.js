@@ -12,31 +12,30 @@ const getters = {
 
 // actions
 const actions = {
-  [GlobalTypes.signIn] ({ commit }, provider) {
-    Api.auth.signIn(provider).then(function (user) {
-      console.log('Signed In!', user)
-      commit(GlobalTypes.setCurrentUser, user)
-    })
-    .catch(function (err) {
-      console.error('Unable to sign in.', err)
-    })
+  [GlobalTypes.signIn] ({ commit }, token) {
+    if (token) {
+      window.sessionStorage.setItem(GlobalTypes.sessionToken, token)
+    } else {
+      token = window.sessionStorage.getItem(GlobalTypes.sessionToken)
+    }
+    if (token) {
+      Api.user.whoami(token).then(function (user) {
+        console.log('ME: ', user)
+        if (user) {
+          commit(GlobalTypes.currentUser, user)
+        }
+      })
+    }
   },
-  [GlobalTypes.getCurrentUser] ({ commit }, token) {
-    Api.user.whoami(token).then(function (user) {
-      console.log('ME: ', user)
-      if (user) {
-        commit(GlobalTypes.setCurrentUser, user)
-      }
-    })
-  },
-  [GlobalTypes.setCurrentUser] ({ commit }, user) {
-    commit(GlobalTypes.setCurrentUser, user)
+  [GlobalTypes.signOut] ({ commit }) {
+    window.sessionStorage.removeItem(GlobalTypes.sessionToken)
+    commit(GlobalTypes.currentUser, null)
   }
 }
 
 // mutations must be synchronous
 const mutations = {
-  [GlobalTypes.setCurrentUser] (state, user) {
+  [GlobalTypes.currentUser] (state, user) {
     state.currentUser = user
   }
 }

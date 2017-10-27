@@ -1,6 +1,8 @@
 var Primus = require('primus')
 //  , Substream = require('substream')
   , PrimusEmit = require('primus-emit')
+  , User = require('../models/user')
+  , thinky = require('./rdb')
 ;
 
 module.exports = function (server, opts) {
@@ -13,7 +15,27 @@ module.exports = function (server, opts) {
     console.log('CLIENT CONNECTED: ');
     spark.write('Client Connected!');
 
-    spark.emit('toast', 'toast from spark');
+    thinky.dbReady().then(function () {
+      User.changes().then(function(feed) {
+        spark.emit('user:feed', feed);
+        
+        feed.each(function (err, doc) {
+          if (err) {
+            spark.emit('toast', { type: 'is-danger', message: err.toString() })
+          } else if (doc.isSaved() === false) {
+            spark.emit('toast', { type: 'is-warning', message: 'User' + + ' was deleted.' })
+          } else if (doc.getOldValue() == null) {
+            spark.emit('toast', { type: 'is-success', message: doc.displayName + ' has logged in for the first time!' })
+          } else {
+            spark.emit('toast', { type: 'is-success', message: doc.displayName + ' has been updated' })
+          }
+        })
+      }).error(function(err) {
+        console.log('USER CHANGE FEED ERRROR: ', err);
+      });
+    })
+
+    spark.emit('toast', { type: 'is-success', message: 'You are now connected!' });
 
     spark.on('user:me', function () {
       console.log('GETTING ME: ');

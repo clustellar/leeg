@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/pages/HomePage'
+import store from '@/store'
+import { GlobalTypes } from '@/store/mutation-types'
 
 Vue.use(Router)
 
@@ -12,9 +14,9 @@ export default new Router({
       component: HomePage
     },
     {
-      path: '/token/:token',
+      path: '/set-token/:token',
       beforeEnter: function (to, from, next) {
-        window.sessionStorage.setItem('token', to.params.token) // set session token
+        store.dispatch(GlobalTypes.signIn, to.params.token)
         next('/')
       }
     }
