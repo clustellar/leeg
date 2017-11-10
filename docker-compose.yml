@@ -11,7 +11,7 @@ services:
     image: redis:alpine
   api:
     build: ./api
-    command: node index.js
+    command: node app.js
     volumes:
       - ./api:/api
     ports:

@@ -1,6 +1,8 @@
-var Primus = window.Primus
-var primus = Primus(process.env.WEBSOCKET)
+export default function () {
+  var Primus = window.Primus
+  var primus = Primus(process.env.WEBSOCKET)
 
-window.primus = primus
+  window.primus = primus
 
-export default primus
+  return primus
+}

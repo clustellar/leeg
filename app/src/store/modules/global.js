@@ -19,7 +19,7 @@ const actions = {
       token = window.sessionStorage.getItem(GlobalTypes.sessionToken)
     }
     if (token) {
-      Api.user.whoami(token).then(function (user) {
+      Api.user.me(token).then(function (user) {
         console.log('ME: ', user)
         if (user) {
           commit(GlobalTypes.currentUser, user)

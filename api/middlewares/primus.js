@@ -2,11 +2,11 @@ var Primus = require('primus')
 //  , Substream = require('substream')
   , PrimusEmit = require('primus-emit')
   , User = require('../models/user')
-  , thinky = require('./rdb')
+  , thinky = require('../models/rdb')
 ;
 
 module.exports = function (server, opts) {
-  var primus = new Primus(server, { transformer: 'uws' });
+  var primus = new Primus(server, opts);
 
   primus.plugin('emit', PrimusEmit);
 //  primus.plugin('substream', Substream);

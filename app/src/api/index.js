@@ -6,20 +6,17 @@ var parseData = function (resp) {
 }
 
 var api = axios.create({
-  baseURL: process.env.API || 'http://localhost/',
+  baseURL: process.env.API || window.location.origin.replace(window.location.port, '3030'),
   timeout: 10000
 })
 
 var userApi = {
-  me: function () {
-    return api.get('/me').then(parseData)
-  },
-  whoami: function (token) {
-    return api.get('/whoami', { params: { token: token } }).then(parseData)
+  me: function (token) {
+    return api.get('/users/me', { params: { token: token } }).then(parseData)
   }
 }
 
 export default {
   user: userApi,
-  primus: primus
+  primus: primus()
 }

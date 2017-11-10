@@ -1,4 +1,4 @@
-var thinky = require('../lib/rdb');
+var thinky = require('./rdb');
 var uuid = require('uuid/v4');
 var type = thinky.type;
 var r = thinky.r;
@@ -11,7 +11,7 @@ var User = thinky.createModel('users', {
   email: type.string(),
   gender: type.string(),
   photo: type.string(),
-  sessionSecret: type.string().default(uuid()),
+  sessionSecret: type.string().default(uuid),
   createdAt: type.date().default(r.now()),
   updatedAt: type.date().default(r.now())
 })
