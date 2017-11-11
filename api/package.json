@@ -17,8 +17,6 @@
   "author": "Taemon <taemon1337@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.12.3",
-    "express": "^4.12.3",
     "body-parser": "^1.18.2",
     "connect-redis": "^3.3.2",
     "cors": "^2.8.4",
@@ -30,6 +28,7 @@
     "passport-jwt": "^3.0.1",
     "primus": "^7.1.0",
     "primus-emit": "^1.0.0",
+    "request": "^2.83.0",
     "rethinkdbdash": "^2.3.31",
     "substream": "^0.2.0",
     "thinky": "^2.3.9",

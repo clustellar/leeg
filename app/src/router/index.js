@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/pages/HomePage'
+import OrganizationsPage from '@/pages/OrganizationsPage'
+import NewOrganizationsPage from '@/pages/NewOrganizationsPage'
 import store from '@/store'
 import { GlobalTypes } from '@/store/mutation-types'
 
@@ -12,6 +14,16 @@ export default new Router({
       path: '/',
       name: 'HomePage',
       component: HomePage
+    },
+    {
+      path: '/orgs',
+      name: 'OrganizationsPage',
+      component: OrganizationsPage
+    },
+    {
+      path: '/orgs/new',
+      name: 'NewOrganizationsPage',
+      component: NewOrganizationsPage
     },
     {
       path: '/set-token/:token',

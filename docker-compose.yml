@@ -11,7 +11,7 @@ services:
     image: redis:alpine
   api:
     build: ./api
-    command: node app.js
+    command: nodemon app.js
     volumes:
       - ./api:/api
     ports:
@@ -39,7 +39,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - API=http://localhost:3030
+      - API=http://localhost:3030/api
       - WEBSOCKET=http://localhost:3030
     working_dir: /app
     command: npm run dev

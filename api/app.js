@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(sessionHandler());  // setup custom session handler with redis
 authHandler(app);           // auth handler (oauth google)
-app.use(require('./controllers'))
+app.use('/api', require('./controllers'))
 
 // primus websocket handler
 app.primus = Primus(server, { transformer: 'websockets' });

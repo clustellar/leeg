@@ -13,3 +13,10 @@ export const GlobalTypes = {
   currentUser: 'currentUser',
   sessionToken: 'session-token'
 }
+
+export const OrgTypes = {
+  all: 'Org.all',
+  fetch: 'Org.fetch',
+  add: 'Org.add',
+  remove: 'Org.remove'
+}

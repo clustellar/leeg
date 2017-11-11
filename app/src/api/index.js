@@ -1,22 +1,13 @@
-import axios from 'axios'
+import http from './http'
 import primus from './primus'
-
-var parseData = function (resp) {
-  return resp.data
-}
-
-var api = axios.create({
-  baseURL: process.env.API || window.location.origin.replace(window.location.port, '3030'),
-  timeout: 10000
-})
-
-var userApi = {
-  me: function (token) {
-    return api.get('/users/me', { params: { token: token } }).then(parseData)
-  }
-}
+import userApi from './user'
+import namespaceApi from './namespace'
+import proxy from './proxy'
 
 export default {
   user: userApi,
+  namespace: namespaceApi,
+  http: http,
+  proxy: proxy,
   primus: primus()
 }

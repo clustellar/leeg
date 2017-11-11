@@ -8,6 +8,9 @@
     <div class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item">
+          <router-link to="/orgs">Orgs</router-link>
+        </a>
+        <a class="navbar-item">
           <router-link to="/">Leagues</router-link>
         </a>
         <a class="navbar-item">
