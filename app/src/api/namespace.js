@@ -5,8 +5,12 @@ var parseData = function (resp) {
 }
 
 var namespaceApi = {
-  findAll: function (token) {
-    return http.get('/namespaces').then(parseData)
+  save: function (record, opts) {
+    let method = record.name ? 'PUT' : 'POST'
+    return http(Object.assign({}, opts, { method: method, url: '/namespaces', data: record })).then(parseData)
+  },
+  filter: function (params) {
+    return http.get('/namespaces', { params: params || {} }).then(parseData)
   }
 }
 

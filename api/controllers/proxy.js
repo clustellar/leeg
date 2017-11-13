@@ -2,6 +2,9 @@ var express = require('express')
   , request = require('request')
   , router = express.Router()
 
+/*
+ * TODO: figure out express/passport session mgmt and only allow authenticated sessions to hit the proxy
+ */
 router.get('*', function (req, res, next) {
   try {
     var b64 = req.originalUrl.toString().split('proxy/').pop();

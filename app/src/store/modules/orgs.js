@@ -1,5 +1,6 @@
 import { OrgTypes } from '../mutation-types'
 import api from '@/api'
+import store from '@/store'
 
 const state = {
   all: []
@@ -7,15 +8,21 @@ const state = {
 
 // getters
 const getters = {
-  [OrgTypes.all]: state => state.all
+  [OrgTypes.all]: state => state.all,
+  [OrgTypes.filter]: state => (name) => {
+    return state.all.find(org => org.name === name)
+  }
 }
 
 // actions
 const actions = {
-  [OrgTypes.fetch] ({ commit }, opts) {
-    api.namespace.findAll(opts).then(resp => {
-      commit(OrgTypes.fetch, resp)
+  [OrgTypes.filter] ({ commit }, opts) {
+    api.primus.on('namespace:feed', (feed) => {
+      console.log('ORG CHANGE: ', feed)
+      console.log(store)
     })
+
+    api.namespace.filter(opts).then(resp => commit(OrgTypes.add, resp))
   },
   [OrgTypes.add] ({ commit }) {
     // services.orgService.on('created', function (org) {
@@ -34,15 +41,20 @@ const actions = {
 
 // mutations must be synchronous
 const mutations = {
-  [OrgTypes.fetch] (state, orgs) {
-    orgs.forEach(function (org) {
-      if (state.all[org] === -1) {
-        state.all.push(org)
+  [OrgTypes.add] (state, resp) {
+    let keys = state.all.map((org) => org.name) // for uniqueness check
+
+    if (typeof resp.forEach === 'function') {
+      resp.forEach((org) => {
+        if (keys.indexOf(org.name) === -1) {
+          state.all.push(org)
+        }
+      })
+    } else if (resp.name) {
+      if (keys.indexOf(resp.name) === -1) {
+        state.all.push(resp)
       }
-    })
-  },
-  [OrgTypes.add] (state, org) {
-    state.all.push(org)
+    }
   },
   [OrgTypes.remove] (state, org) {
     let index = state.all.indexOf(org)

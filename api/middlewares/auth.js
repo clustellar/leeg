@@ -11,7 +11,7 @@ var express = require('express')
   , APP_REDIRECT_URL = process.env.APP_REDIRECT_URL || '/'
 ;
 
-passport.use(new GoogleStrategy({ clientID: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET, callbackURL: '/auth/google/callback' }, function (accessToken, refreshToken, profile, done) {
+passport.use(new GoogleStrategy({ clientID: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET, callbackURL: '/api/auth/google/callback' }, function (accessToken, refreshToken, profile, done) {
   var attrs = {
     displayName: profile.displayName,
     email: parser.google.email(profile),
@@ -43,8 +43,8 @@ module.exports = function (app) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.get('/auth/google', passport.authenticate('google', { scope: GOOGLE_CLIENT_SCOPE }));
-  app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), function (req, res) {
+  app.get('/api/auth/google', passport.authenticate('google', { scope: GOOGLE_CLIENT_SCOPE }));
+  app.get('/api/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), function (req, res) {
     res.redirect(APP_REDIRECT_URL + '#/set-token/' + req.user.sessionSecret);
   });
 }

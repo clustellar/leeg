@@ -99,15 +99,30 @@
       loadUrl (e) {
         let self = this
         self.loading = true
-        api.proxy.get(window.btoa(e.target.value), { responseType: 'blob' }).then(function (resp) {
-          binaryToBase64(resp.data).then(function (b64) {
-            self.loading = false
-            self.url = e.target.value
-            self.setValue(b64)
+        if (e.target.value.startsWith('data')) {
+          self.loading = false
+          self.setValue(e.target.value)
+        } else {
+          api.proxy.get(window.btoa(e.target.value), { responseType: 'blob' }).then(function (resp) {
+            binaryToBase64(resp.data).then(function (b64) {
+              self.loading = false
+              self.url = e.target.value
+              self.setValue(b64)
+            }).catch(function (err) {
+              self.loading = false
+              self.$dialog.alert({
+                title: 'Error converting image',
+                message: err.toString(),
+                type: 'is-danger',
+                hasIcon: true,
+                icon: 'times-circle',
+                iconPack: 'fa'
+              })
+            })
           }).catch(function (err) {
             self.loading = false
             self.$dialog.alert({
-              title: 'Error converting image',
+              title: 'Error loading URL',
               message: err.toString(),
               type: 'is-danger',
               hasIcon: true,
@@ -115,17 +130,7 @@
               iconPack: 'fa'
             })
           })
-        }).catch(function (err) {
-          self.loading = false
-          self.$dialog.alert({
-            title: 'Error loading URL',
-            message: err.toString(),
-            type: 'is-danger',
-            hasIcon: true,
-            icon: 'times-circle',
-            iconPack: 'fa'
-          })
-        })
+        }
       },
       // No way to detect CORS blocked requests
       loadUrlDirect (e) {

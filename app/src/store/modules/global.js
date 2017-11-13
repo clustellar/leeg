@@ -7,7 +7,8 @@ const state = {
 
 // getters
 const getters = {
-  [GlobalTypes.currentUser]: state => state.currentUser
+  [GlobalTypes.currentUser]: state => state.currentUser,
+  [GlobalTypes.sessionToken]: state => window.sessionStorage.getItem(GlobalTypes.sessionToken)
 }
 
 // actions

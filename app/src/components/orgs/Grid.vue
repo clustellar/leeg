@@ -1,52 +1,58 @@
 <template>
   <section>
     <b-field>
-        <b-input placeholder="Search..."
-            type="search"
-            icon="search">
-        </b-input>
+        <b-input v-model="filter" placeholder="Search..." type="search" icon="search"></b-input>
     </b-field>
-    <div class="tile is-ancestor">
-      <div v-for="org in orgs" class="title is-parent">
-        <article :class="gridClass(org)">
-          <div class="content">
-            <p class="title" :text="org.title || org.name"></p>
-            <img v-if="org.logo" :src="org.logo">
-            <p v-if="org.description" class="subtitle" :text="org.description"></p>
-          </div>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">One</p>
-          <p class="subtitle">Subtitle</p>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child notification is-success">
-          <div class="content">
-            <p class="title">Tall tile</p>
-            <p class="subtitle">With even more content</p>
+    <div class="columns">
+      <div class="column is-mobile">
+        <article v-for="org in filteredOrgs" :key="org.name" class="media">
+          <figure class="media-left">
+            <p class="image is-256x256">
+              <router-link :to="'/orgs/' + org.name">
+                <img :src="org.logo || 'https://bulma.io/images/placeholders/256x256.png'">
+              </router-link>
+            </p>
+          </figure>
+          <div class="media-content">
             <div class="content">
-              <!-- Content -->
+              <p>
+                <router-link :to="'/orgs/' + org.name">
+                  <strong>{{ org.name }}</strong>
+                </router-link>
+                <small>{{ org.owner }}</small>
+                <small>{{ org.members }}</small>
+              </p>
+            </div>
+            <nav class="level">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Leagues</p>
+                  <p class="title">{{ Math.floor(Math.random() * 1000) }}</p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Participants</p>
+                  <p class="title">{{ Math.floor(Math.random() * 10000) }}</p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Game or Events</p>
+                  <p class="title">{{ Math.floor(Math.random() * 30000) }}</p>
+                </div>
+              </div>
+            </nav>
+            <div class="content">
+              <p>{{ org.description }}</p>
             </div>
           </div>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">One</p>
-          <p class="subtitle">Subtitle</p>
-        </article>
-      </div>
-      <div class="tile is-parent is-vertical">
-        <article class="tile is-child notification is-primary">
-          <p class="title">Vertical...</p>
-          <p class="subtitle">Top tile</p>
-        </article>
-        <article class="tile is-child notification is-warning">
-          <p class="title">...tiles</p>
-          <p class="subtitle">Bottom tile</p>
+          <div class="media-right">
+            <b-icon icon="heart-o"></b-icon>
+            <b-icon icon="twitter"></b-icon>
+            <b-icon icon="facebook"></b-icon>
+            <b-icon icon="google"></b-icon>
+          </div>
         </article>
       </div>
     </div>
@@ -60,15 +66,25 @@
   export default {
     name: 'OrganizationsGrid',
     data () {
-      return {}
+      return {
+        filter: ''
+      }
     },
     computed: {
       ...mapGetters({
         orgs: OrgTypes.all
-      })
+      }),
+      filteredOrgs () {
+        return this.orgs.filter((org) => [org.name, org.description || ''].join(' ').match(this.filter))
+      }
+    },
+    methods: {
+      gridClass (org) {
+        return 'tile'
+      }
     },
     beforeCreate () {
-      this.$store.dispatch(OrgTypes.fetch)
+      this.$store.dispatch(OrgTypes.filter, this.$route.params || {})
     }
   }
 </script>

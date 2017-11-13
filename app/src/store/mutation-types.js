@@ -16,7 +16,7 @@ export const GlobalTypes = {
 
 export const OrgTypes = {
   all: 'Org.all',
-  fetch: 'Org.fetch',
+  filter: 'Org.filter',
   add: 'Org.add',
   remove: 'Org.remove'
 }
