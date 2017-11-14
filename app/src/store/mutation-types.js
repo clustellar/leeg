@@ -18,5 +18,6 @@ export const OrgTypes = {
   all: 'Org.all',
   filter: 'Org.filter',
   add: 'Org.add',
-  remove: 'Org.remove'
+  remove: 'Org.remove',
+  save: 'Org.save'
 }

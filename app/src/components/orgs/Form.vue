@@ -33,11 +33,6 @@
                 </div>
               </div>
               <div class="level-right">
-                <div class="level-item">
-                  <label class="checkbox">
-                    <input type="checkbox"> Press enter to submit
-                  </label>
-                </div>
               </div>
             </nav>
           </div>
@@ -53,25 +48,19 @@
 </template>
 
 <script>
+  import { OrgTypes } from '@/store/mutation-types'
   import ModalImageEditor from '@/components/ModalImageEditor'
   import api from '@/api'
   import debounce from 'debounce'
 
   export default {
     name: 'OrganizationForm',
-    props: {
-      org: {
-        type: Object,
-        default () {
-          return {}
-        }
-      }
-    },
     data () {
       return {
         clickToEdit: false,
         editingLogo: false,
         loading: false,
+        loaded: false,
         nameInputType: '',
         nameInputMessage: '',
         form: {}
@@ -105,10 +94,10 @@
         let self = this
         self.loading = true
         self.$toast.open({ type: 'is-info', message: 'saving organization...' })
-        api.namespace.save(Object.assign({}, this.org, this.form)).then(function (resp) {
+        self.$store.dispatch(OrgTypes.save, Object.assign({}, this.org, this.form)).then(resp => {
           self.loading = false
           self.$snackbar.open({ type: 'is-success', message: 'Saved ' + self.form.name + '!' })
-        }).catch(function (err) {
+        }).catch(err => {
           self.loading = false
           self.$dialog.alert({
             title: 'Error saving organization!',
@@ -122,11 +111,23 @@
       }
     },
     computed: {
+      org () {
+        return this.$store.getters[OrgTypes.filter](this.$route.params.name) || {}
+      },
       privateInputMessage () {
         return this.form.private ? 'Only members will see the organization listed.' : 'All users will see this organization.'
       },
       savable () {
-        return this.nameInputType === 'is-success'
+        return this.nameInputType === 'is-success' || this.loaded
+      }
+    },
+    beforeCreate () {
+      this.$store.dispatch(OrgTypes.filter, this.$route.params || {})
+    },
+    mounted () {
+      if (!this.loaded) {
+        this.form = Object.assign({}, this.org)
+        this.loaded = true
       }
     },
     components: {

@@ -17,7 +17,7 @@
             <div class="content">
               <p>
                 <router-link :to="'/orgs/' + org.name">
-                  <strong>{{ org.name }}</strong>
+                  <strong>{{ capitalize(org.name) }}</strong>
                 </router-link>
                 <small>{{ org.owner }}</small>
                 <small>{{ org.members }}</small>
@@ -62,9 +62,11 @@
 <script>
   import { OrgTypes } from '@/store/mutation-types'
   import { mapGetters } from 'vuex'
+  import capitalize from '@/mixins/capitalize'
 
   export default {
     name: 'OrganizationsGrid',
+    mixins: [capitalize],
     data () {
       return {
         filter: ''

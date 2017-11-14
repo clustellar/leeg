@@ -17,10 +17,18 @@ var save = function (req, res, next) {
         }
       })
     } else {
-      let ns = new Namespace(req.body)
-      ns.save()
-        .then( (resp) => res.send(JSON.stringify(resp)) )
-        .catch( (err) => res.status(500).send(err) )
+      if (req.params.name) {
+        console.log('UPDATING: ' + req.params.name)
+        Namespace.get(req.params.name).update(req.body)
+        .then(resp => res.send(JSON.stringify(resp)))
+        .catch(err => res.status(500).send(err))
+      } else {
+        console.log('CREATING: ' + req.body.name)
+        let ns = new Namespace(req.body)
+        ns.save()
+        .then(resp => res.send(JSON.stringify(resp)) )
+        .catch(err => res.status(500).send(err) )
+      }
     }
   } else {
     res.status(500).send('No body received.')
@@ -34,6 +42,6 @@ router.get('/', function (req, res, next) {
 })
 
 router.post('/', save)
-router.put('/', save)
+router.put('/:name', save)
 
 module.exports = router

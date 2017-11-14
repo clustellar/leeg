@@ -14,7 +14,7 @@ var User = thinky.createModel('users', {
   sessionSecret: type.string().default(uuid),
   createdAt: type.date().default(r.now()),
   updatedAt: type.date().default(r.now())
-})
+}, { pk: 'email' })
 
 User.ensureIndex('createdAt');
 User.ensureIndex('sessionSecret');

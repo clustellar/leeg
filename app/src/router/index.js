@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HomePage from '@/pages/HomePage'
 import OrganizationsPage from '@/pages/OrganizationsPage'
 import OrganizationPage from '@/pages/OrganizationPage'
+import OrganizationEditPage from '@/pages/OrganizationEditPage'
 import NewOrganizationsPage from '@/pages/NewOrganizationsPage'
 import store from '@/store'
 import { GlobalTypes } from '@/store/mutation-types'
@@ -25,6 +26,11 @@ export default new Router({
       path: '/orgs/new',
       name: 'NewOrganizationsPage',
       component: NewOrganizationsPage
+    },
+    {
+      path: '/orgs/:name/edit',
+      name: 'OrganizationEditPage',
+      component: OrganizationEditPage
     },
     {
       path: '/orgs/:name',

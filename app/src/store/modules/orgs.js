@@ -24,6 +24,9 @@ const actions = {
 
     api.namespace.filter(opts).then(resp => commit(OrgTypes.add, resp))
   },
+  [OrgTypes.save] ({ commit }, record) {
+    return api.namespace.save(record).then(resp => commit(OrgTypes.add, resp))
+  },
   [OrgTypes.add] ({ commit }) {
     // services.orgService.on('created', function (org) {
     //   commit(OrgTypes.add, org)
@@ -45,15 +48,13 @@ const mutations = {
     let keys = state.all.map((org) => org.name) // for uniqueness check
 
     if (typeof resp.forEach === 'function') {
-      resp.forEach((org) => {
-        if (keys.indexOf(org.name) === -1) {
-          state.all.push(org)
-        }
+      resp.forEach(org => {
+        let i = keys.indexOf(org.name)
+        i === -1 ? state.all.push(org) : state.all.splice(i, 1, org)
       })
     } else if (resp.name) {
-      if (keys.indexOf(resp.name) === -1) {
-        state.all.push(resp)
-      }
+      let i = keys.indexOf(resp.name)
+      i === -1 ? state.all.push(resp) : state.all.splice(i, 1, resp)
     }
   },
   [OrgTypes.remove] (state, org) {
