@@ -21,3 +21,11 @@ export const OrgTypes = {
   remove: 'Org.remove',
   save: 'Org.save'
 }
+
+export const GroupTypes = {
+  all: 'Group.all',
+  filter: 'Group.filter',
+  add: 'Group.add',
+  remove: 'Group.remove',
+  save: 'Group.save'
+}

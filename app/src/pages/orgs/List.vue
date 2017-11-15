@@ -18,7 +18,7 @@
   import OrganizationsGrid from '@/components/orgs/Grid'
 
   export default {
-    name: 'OrganizationsPage',
+    name: 'OrganizationListPage',
     data () {
       return {}
     },

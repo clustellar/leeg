@@ -49,7 +49,7 @@
   import OrganizationForm from '@/components/orgs/Form'
 
   export default {
-    name: 'NewOrganizationsPage',
+    name: 'OrganizationNewPage',
     data () {
       return {}
     },

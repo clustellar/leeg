@@ -5,6 +5,7 @@ import * as getters from './getters'
 import messages from './modules/messages'
 import global from './modules/global'
 import orgs from './modules/orgs'
+import groups from './modules/groups'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
   modules: {
     global,
     messages,
-    orgs
+    orgs,
+    groups
   },
   strict: debug
 })

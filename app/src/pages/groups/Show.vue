@@ -3,7 +3,7 @@
     <nav class="navbar">
       <div class="navbar-brand">
         <a class="navbar-item is-paddingless">
-          <img class="navbar-img is-round" :src="org.logo" :alt="org.name">
+          <img class="navbar-img is-round" :src="group.logo" :alt="group.name">
         </a>
         <a class="navbar-item has-text-info"><b-icon pack="fa" icon="github"></b-icon></a>
         <a class="navbar-item has-text-info"><b-icon pack="fa" icon="twitter"></b-icon></a>
@@ -17,7 +17,7 @@
               <b-icon icon="caret-down"></b-icon>
             </a>
             <b-dropdown-item has-link>
-              <router-link :to="'/orgs/' + org.name + '/edit'">
+              <router-link :to="'/groups/' + group.name + '/edit'">
                 <b-icon icon="pencil"></b-icon>
                 Edit Settings
               </router-link>
@@ -35,15 +35,15 @@
         <div class="container">
           <div class="media">
             <div class="media-left">
-              <img :src="org.logo">
+              <img :src="group.logo">
             </div>
             <div class="media-content">
               <div class="content">
                 <h1>
-                  <strong>Organization: {{ capitalize(org.name) }}</strong>
+                  <strong>Group: {{ capitalize(group.name) }}</strong>
                 </h1>
                 <h4>
-                  <small>{{ org.description }}</small>
+                  <small>{{ group.description }}</small>
                 </h4>
               </div>
             </div>
@@ -61,22 +61,22 @@
 </template>
 
 <script>
-  import { OrgTypes } from '@/store/mutation-types'
+  import { GroupTypes } from '@/store/mutation-types'
   import capitalize from '@/mixins/capitalize'
 
   export default {
-    name: 'OrganizationPage',
+    name: 'GroupShowPage',
     mixins: [capitalize],
     data () {
       return {}
     },
     computed: {
-      org () {
-        return this.$store.getters[OrgTypes.filter](this.$route.params.name) || {}
+      group () {
+        return this.$store.getters[GroupTypes.filter](this.$route.params.name) || {}
       }
     },
     beforeCreate () {
-      this.$store.dispatch(OrgTypes.filter, this.$route.params || {})
+      this.$store.dispatch(GroupTypes.filter, this.$route.params || {})
     },
     components: {}
   }

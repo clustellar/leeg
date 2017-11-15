@@ -1,9 +1,11 @@
 var express = require('express')
   , router = express.Router()
   , thinky = require('../models/rdb')
-  , Namespace = require('../models/namespace')
+  , Namespace = require('../models/Namespace')
   , errors = require('../helpers/errors')
   , parser = require('../helpers/parser')
+  , type = thinky.type
+  , r = thinky.r
 
 
 var save = function (req, res, next) {
@@ -18,12 +20,10 @@ var save = function (req, res, next) {
       })
     } else {
       if (req.params.name) {
-        console.log('UPDATING: ' + req.params.name)
         Namespace.get(req.params.name).update(req.body)
         .then(resp => res.send(JSON.stringify(resp)))
         .catch(err => res.status(500).send(err))
       } else {
-        console.log('CREATING: ' + req.body.name)
         let ns = new Namespace(req.body)
         ns.save()
         .then(resp => res.send(JSON.stringify(resp)) )
@@ -43,5 +43,26 @@ router.get('/', function (req, res, next) {
 
 router.post('/', save)
 router.put('/:name', save)
+
+
+// used to migrate old model to new model
+// var Old = thinky.createModel('namespaces', {
+//   name: type.string(),
+//   subtitle: type.string(),
+//   logo: type.string(),
+//   description: type.string(),
+//   privacy: type.string().default('default'),
+//   createdAt: type.date().default(r.now()),
+//   updatedAt: type.date().default(r.now())
+// }, { pk: 'name' })
+
+// router.get('/sync', function (req, res, next) {
+//   Old.filter({}).run().then(all => {
+//     all.forEach(old => {
+//       new Namespace(Object.assign({}, old, { id: undefined })).save()
+//     })
+//   })
+//   res.send('doing it')
+// })
 
 module.exports = router

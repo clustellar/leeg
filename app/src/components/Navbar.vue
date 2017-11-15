@@ -11,6 +11,9 @@
           <router-link to="/orgs">Orgs</router-link>
         </a>
         <a class="navbar-item">
+          <router-link to="/groups">Groups</router-link>
+        </a>
+        <a class="navbar-item">
           <router-link to="/">Leagues</router-link>
         </a>
         <a class="navbar-item">

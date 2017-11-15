@@ -1,8 +1,8 @@
 var Primus = require('primus')
 //  , Substream = require('substream')
   , PrimusEmit = require('primus-emit')
-  , User = require('../models/user')
-  , Namespace = require('../models/namespace')
+  , User = require('../models/User')
+  , Namespace = require('../models/Namespace')
   , thinky = require('../models/rdb')
 ;
 

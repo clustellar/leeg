@@ -2,7 +2,7 @@ var express = require('express')
   , passport = require('passport')
   , jwt = require('jsonwebtoken')
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-  , User = require('../models/user')
+  , User = require('../models/User')
   , parser = require('../helpers/parser')
   , SESSION_SECRET = process.env.SESSION_SECRET || ''
   , GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
@@ -20,7 +20,7 @@ passport.use(new GoogleStrategy({ clientID: GOOGLE_CLIENT_ID, clientSecret: GOOG
 //    oauthAccessToken: accessToken, // dont need to store these tokens since just authenticating
 //    oauthRefreshToken: refreshToken
   };
-  User.findOrCreate(profile.id, attrs).then(function (user) {
+  User.findOrCreate(attrs.email, attrs).then(function (user) {
     done(null, user)
   }).catch(function (err) {
     done(err);
@@ -28,11 +28,11 @@ passport.use(new GoogleStrategy({ clientID: GOOGLE_CLIENT_ID, clientSecret: GOOG
 }));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user.email);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.get(id).then(function(user) {
+passport.deserializeUser(function(email, done) {
+  User.get(email).then(function(user) {
     done(null, user);
   }).catch(function () {
     done(null, null);

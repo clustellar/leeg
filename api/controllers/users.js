@@ -1,7 +1,7 @@
 var express = require('express')
   , router = express.Router()
   , thinky = require('../models/rdb')
-  , User = require('../models/user')
+  , User = require('../models/User')
   , errors = require('../helpers/errors')
   , parser = require('../helpers/parser')
 

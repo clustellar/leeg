@@ -1,11 +1,11 @@
-var thinky = require('./rdb');
-var uuid = require('uuid/v4');
-var type = thinky.type;
-var r = thinky.r;
+var thinky = require('./rdb')
+  , uuid = require('uuid/v4')
+  , type = thinky.type
+  , r = thinky.r
 
 var protectedAttributes = ['id', 'createdAt']; // will need to protect these on every save
 
-var Namespace = thinky.createModel('namespaces', {
+var Namespace = thinky.createModel('Namespace', {
   name: type.string(),
   subtitle: type.string(),
   logo: type.string(),
