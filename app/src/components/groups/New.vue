@@ -27,17 +27,12 @@
       </div>
     </nav>
     <div class="tile is-parent">
-      <article class="tile is-child notification is-info">
+      <article class="tile is-child notification is-warning">
         <p class="title">A Leeg Group</p>
         <p class="subtitle">What is an group in Leeg?</p>
         <div class="content">
-          An group in Leeg is also known as a namespace and can also be thought of as the governing body for a collection of activities.
-          If you want to run a Leeg activity but do not want the hassel of managing an entire group,
-          consider searching for an open group to host it, or use the 'Public' group, which is wholely unmanaged.
-          <br><br>
-          <router-link tag='span' to='/groups/public/new'>
-            <button class='button is-warning'>Start a Public activity</button>
-          </router-link>
+          Leeg uses Role based access control (RBAC) to allow access to resources in Leeg using user groups.  Each resource specify a list of groups that can perform sensitive actions on that resource.
+          Only users in a listed group may perform that action.
         </div>
       </article>
     </div>

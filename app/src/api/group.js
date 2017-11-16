@@ -6,8 +6,8 @@ var parseData = function (resp) {
 
 var groupApi = {
   save: function (record, opts) {
-    let method = record.name ? 'PUT' : 'POST'
-    let url = record.name ? '/groups/' + record.name : '/groups'
+    let method = record.id ? 'PUT' : 'POST'
+    let url = record.id ? '/groups/' + record.name : '/groups'
     return http(Object.assign({}, opts, { method: method, url: url, data: record })).then(parseData)
   },
   filter: function (params) {

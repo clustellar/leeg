@@ -15,7 +15,7 @@ var User = thinky.createModel('User', {
   sessionSecret: type.string().default(uuid),
   createdAt: type.date().default(r.now()),
   updatedAt: type.date().default(r.now())
-}, { pk: 'email' })
+})
 
 User.hasAndBelongsToMany(User, "friends", "email", "email")
 User.hasAndBelongsToMany(Group, "groups", "email", "email")

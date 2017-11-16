@@ -22,10 +22,10 @@ const actions = {
       console.log(store)
     })
 
-    api.namespace.filter(opts).then(resp => commit(GroupTypes.add, resp))
+    api.group.filter(opts).then(resp => commit(GroupTypes.add, resp))
   },
   [GroupTypes.save] ({ commit }, record) {
-    return api.namespace.save(record).then(resp => commit(GroupTypes.add, resp))
+    return api.group.save(record).then(resp => commit(GroupTypes.add, resp))
   },
   [GroupTypes.add] ({ commit }) {
     // services.groupService.on('created', function (group) {

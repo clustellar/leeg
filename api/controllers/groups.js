@@ -1,11 +1,17 @@
 var express = require('express')
   , router = express.Router()
-  , thinky = require('../models/rdb')
   , User = require('../models/User')
   , Group = require('../models/Group')
+  , inject = require('../common/inject')
+  , findHandler = require('../common/find')
+  , saveHandler = require('../common/save')
   , errors = require('../helpers/errors')
-  , parser = require('../helpers/parser')
 
+
+router.get('/', inject(Group, findHandler.filter))
+router.get('/:name', inject(Group, findHandler.findByName))
+router.post('/', inject(Group, saveHandler.save))
+router.put('/:name', inject(Group, saveHandler.save))
 
 router.get('/mine', function (req, res, next) {
   if (!req.query.token) {
@@ -22,19 +28,6 @@ router.get('/mine', function (req, res, next) {
       res.send(null)
     }
   }).error(errors.error(res))
-})
-
-router.post('/', function (req, res, next) {
-  if (!req.query.token) {
-    return res.send('Unauthorized')
-  }
-  User.filter({ sessionSecret: req.query.token }).nth(0).run().then(user => {
-    if (user) {
-      new Group(req.body).save().then(resp => res.send(JSON.stringify(resp)))
-    } else {
-      res.status(500).send("No valid user session")
-    }
-  })
 })
 
 module.exports = router

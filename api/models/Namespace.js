@@ -13,7 +13,7 @@ var Namespace = thinky.createModel('Namespace', {
   privacy: type.string().default('default'),
   createdAt: type.date().default(r.now()),
   updatedAt: type.date().default(r.now())
-}, { pk: 'name' })
+})
 
 Namespace.ensureIndex('name');
 Namespace.ensureIndex('subtitle');
