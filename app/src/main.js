@@ -7,7 +7,7 @@ import store from './store'
 import Buefy from 'buefy'
 
 import 'font-awesome/css/font-awesome.css'
-import '@/assets/bulma/css/bulma.css'
+// import '@/assets/bulma/css/bulma.css'
 import 'buefy/lib/buefy.css'
 
 Vue.use(Buefy, { defaultIconPack: 'fa', defaultContainerElement: '#app' })

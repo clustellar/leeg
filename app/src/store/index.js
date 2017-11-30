@@ -6,6 +6,8 @@ import messages from './modules/messages'
 import global from './modules/global'
 import orgs from './modules/orgs'
 import groups from './modules/groups'
+import users from './modules/users'
+import leegs from './modules/leegs'
 
 Vue.use(Vuex)
 
@@ -18,7 +20,9 @@ export default new Vuex.Store({
     global,
     messages,
     orgs,
-    groups
+    groups,
+    users,
+    leegs
   },
   strict: debug
 })

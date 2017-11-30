@@ -9,6 +9,9 @@ import GroupListPage from '@/components/groups/List'
 import GroupEditPage from '@/components/groups/Edit'
 import GroupShowPage from '@/components/groups/Show'
 import GroupNewPage from '@/components/groups/New'
+import LeegNewPage from '@/components/leegs/New'
+import LeegEditPage from '@/components/leegs/Edit'
+import LeegShowPage from '@/components/leegs/Show'
 import store from '@/store'
 import { GlobalTypes } from '@/store/mutation-types'
 
@@ -20,6 +23,21 @@ export default new Router({
       path: '/',
       name: 'HomePage',
       component: HomePage
+    },
+    {
+      path: '/leagues/new',
+      name: 'LeegNewPage',
+      component: LeegNewPage
+    },
+    {
+      path: '/leagues/:name/edit',
+      name: 'LeegEditPage',
+      component: LeegEditPage
+    },
+    {
+      path: '/leagues/:name',
+      name: 'LeegShowPage',
+      component: LeegShowPage
     },
     {
       path: '/orgs',

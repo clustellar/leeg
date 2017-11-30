@@ -2,14 +2,17 @@
   <div id="app">
     <b-loading :active="isSigningIn" :can-cancel="true"></b-loading>
     <navbar></navbar>
-    <messages></messages>
-    <router-view/>
+    <div class="container">
+      <messages></messages>
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
   import 'bulma/css/bulma.css'
   import 'buefy/lib/buefy.css'
+  import '@/assets/custom.css'
   import Messages from '@/components/messages'
   import Navbar from '@/components/Navbar'
   import Api from '@/api'

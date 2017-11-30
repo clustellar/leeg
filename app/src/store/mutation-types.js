@@ -29,3 +29,19 @@ export const GroupTypes = {
   remove: 'Group.remove',
   save: 'Group.save'
 }
+
+export const UserTypes = {
+  all: 'User.all',
+  filter: 'User.filter',
+  add: 'User.add',
+  remove: 'User.remove',
+  save: 'User.save'
+}
+
+export const LeegTypes = {
+  all: 'Leeg.all',
+  filter: 'Leeg.filter',
+  add: 'Leeg.add',
+  remove: 'Leeg.remove',
+  save: 'Leeg.save'
+}

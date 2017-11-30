@@ -1,27 +1,33 @@
 var express = require('express')
   , router = express.Router()
-  , thinky = require('../models/rdb')
   , User = require('../models/User')
+  , Leeg = require('../models/Leeg')
   , inject = require('../common/inject')
   , findHandler = require('../common/find')
   , saveHandler = require('../common/save')
   , errors = require('../helpers/errors')
 
-router.get('/me', function (req, res, next) {
+
+router.get('/', inject(Leeg, findHandler.filter))
+router.get('/:name', inject(Leeg, findHandler.findByName))
+router.post('/', inject(Leeg, saveHandler.save))
+router.put('/:name', inject(Leeg, saveHandler.save))
+
+router.get('/mine', function (req, res, next) {
   if (!req.query.token) {
     return res.send(null)
   }
   User.filter({ sessionSecret: req.query.token }).run().then(function (resp) {
     if (resp.length === 1) {
-      return res.send(JSON.stringify(resp[0]))
+      let user = resp[0]
+      Leeg.filter( (leeg) => { leeg.users.contain(user.id) }).then(function (leegs) {
+        res.send(leegs)
+      })
     } else {
-      console.log("Found multiple users for sessionSecret " + req.query.token)
+      console.log("Found multiple leegs for sessionSecret " + req.query.token)
       res.send(null)
     }
   }).error(errors.error(res))
 })
-
-router.get('/', inject(User, findHandler.filter))
-router.get('/:email', inject(User, findHandler.findByEmail))
 
 module.exports = router

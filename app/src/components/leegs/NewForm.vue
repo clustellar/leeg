@@ -4,66 +4,82 @@
     <div class="columns">
       <modal-image-editor v-if="editingLogo" v-model="form.logo" :active="editingLogo" :onCancel='() => editingLogo = false'></modal-image-editor>
       
-      <div class="column is-two-thirds">
+      <div class="column">
         <article class="media">
           <figure class="media-left overlay-container" @mouseover='clickToEdit = true' @mouseout='clickToEdit = false'>
             <div :class="clickToEdit ? 'notification is-primary' : 'notification'" style='padding:1px;'>
               <div class='img-placeholder'>
                 <img class='image is-256x256 overlay-image' :src="form.logo || 'https://bulma.io/images/placeholders/256x256.png'">
                 <div class="overlay-middle">
-                  <button @click='editingLogo = true' class="button is-primary is-large overlay-text">Click to edit</button>
+                  <button @click='editingLogo = true' class="button is-primary is-large overlay-text">Edit Logo</button>
                 </div>
               </div>
             </div>
           </figure>
           <div class="media-content">
-          <b-field :type="nameInputType" :message='nameInputMessage' label="Name">
-            <b-input @keyup.native="validateName" v-model="form.name" placeholder='enter group name...'></b-input>
-          </b-field>
-          <b-field>
-            <b-input type='textarea' v-model='form.description' placeholder='description...'></b-input>
-          </b-field>
-          <div class="field" :message='privateInputMessage'>
-            <b-switch v-model="form.private"> {{ form.private ? 'Private' : 'Public' }} - <span style='font-size:10px;'>{{ privateInputMessage }}</span></b-switch>
+            <div class="columns">
+              <div class="column">
+                <b-field :type="nameInputType" :message='nameInputMessage' label="">
+                  <b-input @keyup.native="validateName" v-model="form.name" placeholder='League Name' required></b-input>
+                </b-field>
+              </div>
+              <div class="column">
+                <b-field label="">
+                  <b-input type='email' v-model="form.managerEmail" placeholder="Manager's Email" required></b-input>
+                </b-field>
+              </div>
+            </div>
+            <b-field>
+              <b-input type='textarea' rows='5' v-model='form.description' placeholder='Description, Rules, or Information'></b-input>
+            </b-field>
+            <button @click='save' :disabled='!savable' class="button is-success">Save</button>
           </div>
-            <nav class="level">
-              <div class="level-left">
-                <div class="level-item">
-                  <button @click='save' :disabled='!savable' class="button is-success">Save</button>
-                </div>
-              </div>
-              <div class="level-right">
-              </div>
-            </nav>
+          <div class="media-right">
+            <strong>Which best fits your scenario?</strong>
+            <ul class="pad-10">
+              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="sport"> Managed Sports League</b-radio></li>
+              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="class"> Class or Event Registration</b-radio></li>
+              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="fun"> Social Hangout</b-radio></li>
+              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="fun"> Friendly Competition</b-radio></li>
+              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="fun"> Secret Society</b-radio></li>
+            </ul>
+            <p style='font-size:11px;'>
+              This is only use to guess default settings,
+              <br>you can always adjust them later.
+            </p>
           </div>
         </article>
-      </div>
-      <div class="column is-one-third">
-        <pre>
-          {{ form }}
-        </pre>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-  import { GroupTypes } from '@/store/mutation-types'
+  import { LeegTypes, GlobalTypes } from '@/store/mutation-types'
+  import { mapGetters } from 'vuex'
   import ModalImageEditor from '@/components/ModalImageEditor'
   import api from '@/api'
   import debounce from 'debounce'
 
   export default {
-    name: 'GroupanizationForm',
+    name: 'LeegNewForm',
     data () {
       return {
         clickToEdit: false,
         editingLogo: false,
         loading: false,
-        loaded: false,
         nameInputType: '',
         nameInputMessage: '',
+        scenario: '',
         form: {}
+      }
+    },
+    computed: {
+      ...mapGetters({
+        currentUser: GlobalTypes.currentUser
+      }),
+      savable () {
+        return this.form.name && this.form.name.length > 2 && this.form.managerEmail
       }
     },
     methods: {
@@ -72,7 +88,7 @@
         if (e.target.value) {
           this.nameInputType = 'is-info'
           this.nameInputMessage = '<span class="fa fa-spinner fa-spin"></span> checking with server...'
-          api.group.save(Object.assign({}, this.group, this.form), { params: { validate: true } }).then(function (resp) {
+          api.leeg.save(Object.assign({}, this.leeg, this.form), { params: { validate: true } }).then(function (resp) {
             console.log(resp)
             if (resp.valid) {
               self.nameInputType = 'is-success'
@@ -93,14 +109,14 @@
       save () {
         let self = this
         self.loading = true
-        self.$toast.open({ type: 'is-info', message: 'saving groupanization...' })
-        self.$store.dispatch(GroupTypes.save, Object.assign({}, this.group, this.form)).then(resp => {
+        self.$toast.open({ type: 'is-info', message: 'saving leeg...' })
+        self.$store.dispatch(LeegTypes.save, Object.assign({}, this.leeg, this.form)).then(resp => {
           self.loading = false
           self.$snackbar.open({ type: 'is-success', message: 'Saved ' + self.form.name + '!' })
         }).catch(err => {
           self.loading = false
           self.$dialog.alert({
-            title: 'Error saving groupanization!',
+            title: 'Error saving leeg!',
             message: err.toString(),
             type: 'is-danger',
             hasIcon: true,
@@ -110,24 +126,9 @@
         })
       }
     },
-    computed: {
-      group () {
-        return this.$store.getters[GroupTypes.filter](this.$route.params.name) || {}
-      },
-      privateInputMessage () {
-        return this.form.private ? 'Only members will see the groupanization listed.' : 'All users will see this groupanization.'
-      },
-      savable () {
-        return this.nameInputType === 'is-success' || this.loaded
-      }
-    },
-    beforeCreate () {
-      this.$store.dispatch(GroupTypes.filter, this.$route.params || {})
-    },
     mounted () {
-      if (!this.loaded) {
-        this.form = Object.assign({}, this.group)
-        this.loaded = true
+      if (this.currentUser && !this.form.managerEmail) {
+        this.form.managerEmail = this.currentUser.email
       }
     },
     components: {
