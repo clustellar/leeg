@@ -5,7 +5,7 @@
         <h3>Leegs Hosted on the Leeg</h3>
       </div>
       <div class="column is-one-quarter">
-        <router-link to='/leegs/new'>
+        <router-link to='/leagues/new'>
           <button class="button is-primary">Start your own leeg</button>
         </router-link>
       </div>

@@ -1,16 +1,24 @@
 <template>
   <div class="columns pad-20">
     <div class="column is-3">
-      <aside class="menu">
+      <aside class="menu" ref='menu'>
         <p class="menu-label">
           General
         </p>
         <ul class="menu-list">
-          <li><a class="is-active">Dashboard</a></li>
-          <li><a>Customers</a></li>
+          <li><a href='' @click.prevent="setMenu">Dashboard</a></li>
+          <li><a href='permissions' @click.prevent='setMenu'>Rules and Permissions</a></li>
         </ul>
         <p class="menu-label">
-          Administration
+          Personnel
+        </p>
+        <ul class="menu-list">
+          <li><a href='teams' @click.prevent="setMenu">Teams</a></li>
+          <li><a href='coaches' @click.prevent='setMenu'>Coaches</a></li>
+          <li><a href='players' @click.prevent='setMenu'>Players</a></li>
+        </ul>
+        <p class="menu-label">
+          Sessions
         </p>
         <ul class="menu-list">
           <li><a>Team Settings</a></li>
@@ -22,24 +30,11 @@
               <li><a>Add a member</a></li>
             </ul>
           </li>
-          <li><a>Invitations</a></li>
-          <li><a>Cloud Storage Environment Settings</a></li>
-          <li><a>Authentication</a></li>
-        </ul>
-        <p class="menu-label">
-          Transactions
-        </p>
-        <ul class="menu-list">
-          <li><a>Payments</a></li>
-          <li><a>Transfers</a></li>
-          <li><a>Balance</a></li>
         </ul>
       </aside>
     </div>
     <div class="column is-9">
-      <hero-heading title='Create your own!' subtitle='Define exactly what you need.  Public, private, open, closed, professional, personal, online, class registration, whatever you need!'></hero-heading>
-      <site-stats></site-stats>
-      <leeg-form></leeg-form>
+      <leeg-form :show='menu'></leeg-form>
     </div>
   </div>
 </template>
@@ -52,7 +47,22 @@
   export default {
     name: 'LeegEditPage',
     data () {
-      return {}
+      return {
+        menu: ''
+      }
+    },
+    methods: {
+      clearActive () {
+        let childs = this.$refs.menu.getElementsByClassName('is-active')
+        for (let i = 0; i < childs.length; i++) {
+          childs.item(i).className = ''
+        }
+      },
+      setMenu (e) {
+        this.clearActive()
+        e.target.className = 'is-active'
+        this.menu = e.target.href.split('/').pop()
+      }
     },
     components: {
       LeegForm,
