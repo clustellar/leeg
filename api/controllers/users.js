@@ -2,7 +2,6 @@ var express = require('express')
   , router = express.Router()
   , thinky = require('../models/rdb')
   , User = require('../models/User')
-  , inject = require('../common/inject')
   , findHandler = require('../common/find')
   , saveHandler = require('../common/save')
   , errors = require('../helpers/errors')
@@ -21,7 +20,7 @@ router.get('/me', function (req, res, next) {
   }).error(errors.error(res))
 })
 
-router.get('/', inject(User, findHandler.filter))
-router.get('/:email', inject(User, findHandler.findByEmail))
+// router.get('/', inject(User, findHandler.filter))
+// router.get('/:email', inject(User, findHandler.findByEmail))
 
 module.exports = router

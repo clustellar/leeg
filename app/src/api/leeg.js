@@ -7,7 +7,7 @@ var parseData = function (resp) {
 var leegApi = {
   save: function (record, opts) {
     let method = record.id ? 'PUT' : 'POST'
-    let url = record.id ? '/leegs/' + record.name : '/leegs'
+    let url = record.id ? '/leegs/' + record.id : '/leegs'
     return http(Object.assign({}, opts, { method: method, url: url, data: record })).then(parseData)
   },
   filter: function (params) {

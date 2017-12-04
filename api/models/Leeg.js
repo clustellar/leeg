@@ -3,6 +3,7 @@ var thinky = require('./rdb')
   , type = thinky.type
   , r = thinky.r
   , User = require('./User')
+  , Session = require('./Session')
 
 var protectedAttributes = ['id', 'createdAt'];
 
@@ -30,10 +31,6 @@ var Leeg = thinky.createModel('Leeg', {
   updatedAt: type.date().default(r.now())
 })
 
-// Leeg.hasMany(Session, "sessions", "id", "sessionId")
-// Leeg.hasOne(Group, "managers", "id", "groupId")
-// Leeg.hasOne(Rating, "rating", "id", "ratingId")
-
 /*
  *  Game workflow: teams may do action if permission is granted in the league, otherwise the league manager must do it.
  *  1. GAME REQUEST  - Team A to play Team B
@@ -43,9 +40,6 @@ var Leeg = thinky.createModel('Leeg', {
  *  5. GAME REPORT   - Team A and B submit game results after completing game
  *
  */
-
-// Leeg.hasAndBelongsToMany(User, "members", "email", "leegId")
-// Leeg.hasAndBelongsToMany(User, "managers", "email", "leegId")
 
 Leeg.ensureIndex('name')
 Leeg.ensureIndex('title')

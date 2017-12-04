@@ -3,7 +3,8 @@ import api from '@/api'
 import store from '@/store'
 
 const state = {
-  all: []
+  all: [],
+  logos: {}
 }
 
 // getters
@@ -11,6 +12,9 @@ const getters = {
   [LeegTypes.all]: state => state.all,
   [LeegTypes.filter]: state => (name) => {
     return state.all.find(leeg => leeg.name === name)
+  },
+  [LeegTypes.logo]: state => (name) => {
+    return state.logos[name]
   }
 }
 
@@ -23,6 +27,9 @@ const actions = {
     })
 
     api.leeg.filter(opts).then(resp => commit(LeegTypes.add, resp))
+  },
+  [LeegTypes.logo] ({ commit }, name) {
+    api.leeg.filter({ name: name, filter: 'logo' }).then(resp => commit(LeegTypes.logo, name, resp))
   },
   [LeegTypes.save] ({ commit }, record) {
     return api.leeg.save(record).then(resp => commit(LeegTypes.add, resp))
@@ -56,6 +63,9 @@ const mutations = {
       let i = keys.indexOf(resp.name)
       i === -1 ? state.all.push(resp) : state.all.splice(i, 1, resp)
     }
+  },
+  [LeegTypes.logo] (state, id, logo) {
+    state.logos[id] = logo
   },
   [LeegTypes.remove] (state, leeg) {
     let index = state.all.indexOf(leeg)

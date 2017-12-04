@@ -8,6 +8,7 @@ import orgs from './modules/orgs'
 import groups from './modules/groups'
 import users from './modules/users'
 import leegs from './modules/leegs'
+import sessions from './modules/sessions'
 
 Vue.use(Vuex)
 
@@ -22,7 +23,8 @@ export default new Vuex.Store({
     orgs,
     groups,
     users,
-    leegs
+    leegs,
+    sessions
   },
   strict: debug
 })

@@ -5,7 +5,7 @@
         <div class="container">
           <div class="media">
             <div class="media-left">
-              <img :src="leeg.logo">
+              <img :src="logo">
             </div>
             <div class="media-content">
               <div class="content">
@@ -71,10 +71,14 @@
     computed: {
       leeg () {
         return this.$store.getters[LeegTypes.filter](this.$route.params.name) || {}
+      },
+      logo () {
+        return this.$store.getters[LeegTypes.logo](this.$route.params.name) || ''
       }
     },
     beforeCreate () {
       this.$store.dispatch(LeegTypes.filter, this.$route.params || {})
+      this.$store.dispatch(LeegTypes.logo, this.$route.params.name)
     },
     components: {}
   }

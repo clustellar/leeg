@@ -2,16 +2,15 @@ var express = require('express')
   , router = express.Router()
   , User = require('../models/User')
   , Group = require('../models/Group')
-  , inject = require('../common/inject')
   , findHandler = require('../common/find')
   , saveHandler = require('../common/save')
   , errors = require('../helpers/errors')
 
 
-router.get('/', inject(Group, findHandler.filter))
-router.get('/:name', inject(Group, findHandler.findByName))
-router.post('/', inject(Group, saveHandler.save))
-router.put('/:name', inject(Group, saveHandler.save))
+// router.get('/', inject(Group, findHandler.filter))
+// router.get('/:name', inject(Group, findHandler.findByName))
+// router.post('/', inject(Group, saveHandler.save))
+// router.put('/:name', inject(Group, saveHandler.save))
 
 router.get('/mine', function (req, res, next) {
   if (!req.query.token) {

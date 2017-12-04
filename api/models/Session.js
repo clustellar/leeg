@@ -2,11 +2,10 @@ var thinky = require('./rdb')
   , uuid = require('uuid/v4')
   , type = thinky.type
   , r = thinky.r
-  , User = require('./User')
 
 var protectedAttributes = ['id', 'createdAt'];
 
-var Group = thinky.createModel('Group', {
+var Session = thinky.createModel('Session', {
   id: type.string(),
   name: type.string(),
   description: type.string(),
@@ -14,12 +13,12 @@ var Group = thinky.createModel('Group', {
   updatedAt: type.date().default(r.now())
 })
 
-Group.ensureIndex('name');
-Group.ensureIndex('createdAt');
+Session.ensureIndex('name')
+Session.ensureIndex('createdAt')
 
-Group.cleanAttributes = function (attrs) {
+Session.cleanAttributes = function (attrs) {
   protectedAttributes.forEach(function (attr) { delete attrs[attr] });
   return attrs
 }
 
-module.exports = Group;
+module.exports = Session;

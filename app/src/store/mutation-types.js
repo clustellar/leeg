@@ -43,5 +43,14 @@ export const LeegTypes = {
   filter: 'Leeg.filter',
   add: 'Leeg.add',
   remove: 'Leeg.remove',
-  save: 'Leeg.save'
+  save: 'Leeg.save',
+  logo: 'Leeg.logo'
+}
+
+export const SessionTypes = {
+  all: 'Session.all',
+  filter: 'Session.filter',
+  add: 'Session.add',
+  remove: 'Session.remove',
+  save: 'Session.save'
 }

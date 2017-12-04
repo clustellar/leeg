@@ -2,7 +2,6 @@ var thinky = require('./rdb')
   , uuid = require('uuid/v4')
   , type = thinky.type
   , r = thinky.r
-  , Group = require('./Group')
 
 var protectedAttributes = ['sessionSecret', 'createdAt']; // will need to protect these on every save
 
@@ -16,9 +15,6 @@ var User = thinky.createModel('User', {
   createdAt: type.date().default(r.now()),
   updatedAt: type.date().default(r.now())
 })
-
-User.hasAndBelongsToMany(User, "friends", "email", "email")
-User.hasAndBelongsToMany(Group, "groups", "email", "email")
 
 User.ensureIndex('email')
 User.ensureIndex('createdAt')

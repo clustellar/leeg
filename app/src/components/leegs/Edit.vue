@@ -10,26 +10,23 @@
           <li><a href='permissions' @click.prevent='setMenu'>Rules and Permissions</a></li>
         </ul>
         <p class="menu-label">
-          Personnel
-        </p>
-        <ul class="menu-list">
-          <li><a href='teams' @click.prevent="setMenu">Teams</a></li>
-          <li><a href='coaches' @click.prevent='setMenu'>Coaches</a></li>
-          <li><a href='players' @click.prevent='setMenu'>Players</a></li>
-        </ul>
-        <p class="menu-label">
           Sessions
         </p>
         <ul class="menu-list">
-          <li><a>Team Settings</a></li>
-          <li>
-            <a>Manage Your Team</a>
-            <ul>
-              <li><a>Members</a></li>
-              <li><a>Plugins</a></li>
-              <li><a>Add a member</a></li>
-            </ul>
-          </li>
+          <li><a href='sessions' @click.prevent='setMenu'>
+            Sessions
+            <span class="tag is-pulled-right is-success">Current</span>
+          </a></li>
+          <li><a href='archive' @click.prevent='setMenu'>Archives</a></li>
+        </ul>
+        <p class="menu-label">
+          Administration
+        </p>
+        <ul class="menu-list">
+          <li><a href='org' @click.prevent='setMenu'>Organization</a></li>
+          <li><a href='teams' @click.prevent="setMenu">Teams</a></li>
+          <li><a href='coaches' @click.prevent='setMenu'>Coaches</a></li>
+          <li><a href='players' @click.prevent='setMenu'>Players</a></li>
         </ul>
       </aside>
     </div>

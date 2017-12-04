@@ -7,6 +7,7 @@ var express = require('express')
   , authHandler = require('./middlewares/auth')
   , sessionHandler = require('./middlewares/session')
   , port = process.env.PORT || 3030
+  , models = require('./models')
 
 var server = http.createServer(app);
 

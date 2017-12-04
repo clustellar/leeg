@@ -2,16 +2,21 @@ var express = require('express')
   , router = express.Router()
   , User = require('../models/User')
   , Leeg = require('../models/Leeg')
-  , inject = require('../common/inject')
+  , logHandler = require('../common/log')
+  , modelHandler = require('../common/model')
   , findHandler = require('../common/find')
+  , filterHandler = require('../common/filter')
+  , jsonHandler = require('../common/json')
   , saveHandler = require('../common/save')
   , errors = require('../helpers/errors')
 
 
-router.get('/', inject(Leeg, findHandler.filter))
-router.get('/:name', inject(Leeg, findHandler.findByName))
-router.post('/', inject(Leeg, saveHandler.save))
-router.put('/:name', inject(Leeg, saveHandler.save))
+router.use('/:leegId/sessions', require('./sessions'))
+
+router.get('/', logHandler, modelHandler(Leeg), findHandler.filter, filterHandler, jsonHandler)
+router.get('/:name', logHandler, modelHandler(Leeg), findHandler.findByName, filterHandler, jsonHandler)
+router.post('/', logHandler, modelHandler(Leeg), saveHandler.save)
+router.put('/:id', logHandler, modelHandler(Leeg), saveHandler.save)
 
 router.get('/mine', function (req, res, next) {
   if (!req.query.token) {

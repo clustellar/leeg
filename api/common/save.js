@@ -19,12 +19,12 @@ var saveFunction = function (Model, params, data) {
   }
 }
 
-var saveHandler = function (Model, req, res, next) {
+var saveHandler = function (req, res, next) {
   if (req.body) {
     if (req.params.validate || req.query.validate) {
-      validateFunction(Model, { name: req.body.name }).then(resp => res.send(resp))
+      validateFunction(req.model, { name: req.body.name }).then(resp => res.send(resp))
     } else {
-      saveFunction(Model, req.params, req.body)
+      saveFunction(req.model, req.params, req.body)
       .then(resp => res.send(JSON.stringify(resp)))
       .catch(err => res.status(500).send(err))
     }

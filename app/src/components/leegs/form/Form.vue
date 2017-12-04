@@ -1,15 +1,14 @@
 <template>
   <section class='section'>
-    <b-loading :active.sync="loading" :canCancel="true"></b-loading>
     <div class="columns">
-      <modal-image-editor v-if="editingLogo" v-model="form.logo" :active="editingLogo" :onCancel='() => editingLogo = false'></modal-image-editor>
+      <modal-image-editor v-if="editingLogo" :value="value.logo" @input='setLogo' :active="editingLogo" :onCancel='() => editingLogo = false'></modal-image-editor>
       
       <div class="column">
         <article class="media">
           <figure class="media-left overlay-container" @mouseover='clickToEdit = true' @mouseout='clickToEdit = false'>
             <div :class="clickToEdit ? 'notification is-primary' : 'notification'" style='padding:1px;'>
               <div class='img-placeholder'>
-                <img class='image is-256x256 overlay-image' :src="form.logo || 'https://bulma.io/images/placeholders/256x256.png'">
+                <img class='image is-256x256 overlay-image' :src="value.logo || 'https://bulma.io/images/placeholders/256x256.png'">
                 <div class="overlay-middle">
                   <button @click='editingLogo = true' class="button is-primary is-large overlay-text">Edit Logo</button>
                 </div>
@@ -20,33 +19,21 @@
             <div class="columns">
               <div class="column">
                 <b-field :type="nameInputType" :message='nameInputMessage' label="">
-                  <b-input @keyup.native="validateName" v-model="form.name" placeholder='League Name' required></b-input>
+                  <b-input @keyup.native="validateName" :value="value.name" placeholder='League Name' required></b-input>
                 </b-field>
               </div>
               <div class="column">
                 <b-field label="">
-                  <b-input type='email' v-model="form.managerEmail" placeholder="Manager's Email" required></b-input>
+                  <b-input type='email' :value="value.managerEmail" @input="setManagerEmail" placeholder="Manager's Email" required></b-input>
                 </b-field>
               </div>
             </div>
             <b-field>
-              <b-input type='textarea' rows='5' v-model='form.description' placeholder='Description, Rules, or Information'></b-input>
+              <b-input type='textarea' rows='5' @input='setDescription' :value='value.description' placeholder='Description, Rules, or Information'></b-input>
             </b-field>
-            <button @click='save' :disabled='!savable' class="button is-success">Save</button>
           </div>
           <div class="media-right">
-            <strong>Which best fits your scenario?</strong>
-            <ul class="pad-10">
-              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="sport"> Managed Sports League</b-radio></li>
-              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="class"> Class or Event Registration</b-radio></li>
-              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="fun"> Social Hangout</b-radio></li>
-              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="fun"> Friendly Competition</b-radio></li>
-              <li class="mar-5"><b-radio v-model="scenario" name='scenario' native-value="fun"> Secret Society</b-radio></li>
-            </ul>
-            <p style='font-size:11px;'>
-              This is only use to guess default settings,
-              <br>you can always adjust them later.
-            </p>
+            <slot name='right'></slot>
           </div>
         </article>
       </div>
@@ -55,42 +42,52 @@
 </template>
 
 <script>
-  import { LeegTypes, GlobalTypes } from '@/store/mutation-types'
-  import { mapGetters } from 'vuex'
   import ModalImageEditor from '@/components/ModalImageEditor'
   import api from '@/api'
   import debounce from 'debounce'
 
   export default {
-    name: 'LeegNewForm',
+    name: 'LeegForm',
+    props: {
+      value: {
+        type: Object,
+        required: true
+      },
+      logo: {
+        type: String,
+        default: ''
+      }
+    },
     data () {
       return {
         clickToEdit: false,
         editingLogo: false,
-        loading: false,
+        loaded: false,
         nameInputType: '',
-        nameInputMessage: '',
-        scenario: '',
-        form: {}
-      }
-    },
-    computed: {
-      ...mapGetters({
-        currentUser: GlobalTypes.currentUser
-      }),
-      savable () {
-        return this.form.name && this.form.name.length > 2 && this.form.managerEmail
+        nameInputMessage: ''
       }
     },
     methods: {
+      setLogo (val) {
+        this.$emit('input', { logo: val })
+      },
+      setManagerEmail (val) {
+        this.$emit('input', { managerEmail: val })
+      },
+      setDescription (val) {
+        this.$emit('input', { description: val })
+      },
       validateName: debounce(function (e) {
         let self = this
+        let name = e.target.value.replace(/\s+/g, '').toLowerCase()
         if (e.target.value) {
+          this.$emit('input', { name: name })
           this.nameInputType = 'is-info'
           this.nameInputMessage = '<span class="fa fa-spinner fa-spin"></span> checking with server...'
-          api.leeg.save(Object.assign({}, this.leeg, this.form), { params: { validate: true } }).then(function (resp) {
+          api.leeg.save({ name: name }, { params: { validate: true } }).then(function (resp) {
             console.log(resp)
             if (resp.valid) {
+              self.$emit('input', { name: name })
               self.nameInputType = 'is-success'
               self.nameInputMessage = resp.message
             } else {
@@ -105,30 +102,11 @@
           this.nameInputType = ''
           this.nameInputMessage = ''
         }
-      }, 1000),
-      save () {
-        let self = this
-        self.loading = true
-        self.$toast.open({ type: 'is-info', message: 'saving leeg...' })
-        self.$store.dispatch(LeegTypes.save, Object.assign({}, this.leeg, this.form)).then(resp => {
-          self.loading = false
-          self.$snackbar.open({ type: 'is-success', message: 'Saved ' + self.form.name + '!' })
-        }).catch(err => {
-          self.loading = false
-          self.$dialog.alert({
-            title: 'Error saving leeg!',
-            message: err.toString(),
-            type: 'is-danger',
-            hasIcon: true,
-            icon: 'times-circle',
-            iconPack: 'fa'
-          })
-        })
-      }
+      }, 1000)
     },
-    mounted () {
-      if (this.currentUser && !this.form.managerEmail) {
-        this.form.managerEmail = this.currentUser.email
+    computed: {
+      privateInputMessage () {
+        return this.value.private ? 'Only members will see the leeg listed.' : 'All users will see this leeg.'
       }
     },
     components: {
