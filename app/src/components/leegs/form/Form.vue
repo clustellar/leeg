@@ -8,7 +8,7 @@
           <figure class="media-left overlay-container" @mouseover='clickToEdit = true' @mouseout='clickToEdit = false'>
             <div :class="clickToEdit ? 'notification is-primary' : 'notification'" style='padding:1px;'>
               <div class='img-placeholder'>
-                <img class='image is-256x256 overlay-image' :src="value.logo || 'https://bulma.io/images/placeholders/256x256.png'">
+                <img class='image is-256x256 overlay-image' :src="logo || 'https://bulma.io/images/placeholders/256x256.png'">
                 <div class="overlay-middle">
                   <button @click='editingLogo = true' class="button is-primary is-large overlay-text">Edit Logo</button>
                 </div>
@@ -31,6 +31,7 @@
             <b-field>
               <b-input type='textarea' rows='5' @input='setDescription' :value='value.description' placeholder='Description, Rules, or Information'></b-input>
             </b-field>
+            <button @click='save' :disabled='saveDisabled' class="button is-success">Save</button>
           </div>
           <div class="media-right">
             <slot name='right'></slot>
@@ -68,6 +69,9 @@
       }
     },
     methods: {
+      save () {
+        this.$emit('save')
+      },
       setLogo (val) {
         this.$emit('input', { logo: val })
       },
@@ -107,6 +111,9 @@
     computed: {
       privateInputMessage () {
         return this.value.private ? 'Only members will see the leeg listed.' : 'All users will see this leeg.'
+      },
+      saveDisabled () {
+        return !this.value.name || !this.value.managerEmail
       }
     },
     components: {

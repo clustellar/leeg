@@ -10,6 +10,7 @@ const state = {
 // getters
 const getters = {
   [LeegTypes.all]: state => state.all,
+  [LeegTypes.logos]: state => state.logos,
   [LeegTypes.filter]: state => (name) => {
     return state.all.find(leeg => leeg.name === name)
   },
@@ -28,8 +29,8 @@ const actions = {
 
     api.leeg.filter(opts).then(resp => commit(LeegTypes.add, resp))
   },
-  [LeegTypes.logo] ({ commit }, name) {
-    api.leeg.filter({ name: name, filter: 'logo' }).then(resp => commit(LeegTypes.logo, name, resp))
+  [LeegTypes.logo] ({ commit }, opts) {
+    api.leeg.logo(opts).then(resp => commit(LeegTypes.logo, resp))
   },
   [LeegTypes.save] ({ commit }, record) {
     return api.leeg.save(record).then(resp => commit(LeegTypes.add, resp))
@@ -64,8 +65,12 @@ const mutations = {
       i === -1 ? state.all.push(resp) : state.all.splice(i, 1, resp)
     }
   },
-  [LeegTypes.logo] (state, id, logo) {
-    state.logos[id] = logo
+  [LeegTypes.logo] (state, logos) {
+    logos.forEach(function (logo) {
+      let obj = {}
+      obj[logo.name] = logo.logo
+      state.logos = Object.assign({}, state.logos, obj)
+    })
   },
   [LeegTypes.remove] (state, leeg) {
     let index = state.all.indexOf(leeg)

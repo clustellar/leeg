@@ -5,7 +5,7 @@
       <div class="column is-8">
         <button @click='save' :disabled='pristine' class="button is-success">Save</button>
         <div v-if="isShowing('')">
-          <leeg-form-form :value='form' @input='changed'></leeg-form-form>
+          <leeg-form-form :logo='logo' :value='form' @input='changed'></leeg-form-form>
         </div>
         <div v-if="isShowing('permissions')">
           <leeg-form-permissions :value='form' @input='changed'></leeg-form-permissions>
@@ -51,6 +51,9 @@
     computed: {
       leeg () {
         return this.$store.getters[LeegTypes.filter](this.$route.params.name) || {}
+      },
+      logo () {
+        return this.$store.getters[LeegTypes.logo](this.$route.params.name) || ''
       },
       form () {
         return Object.assign({}, this.leeg, this.cache)

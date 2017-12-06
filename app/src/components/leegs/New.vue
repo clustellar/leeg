@@ -2,7 +2,7 @@
   <div class="pad-20">
     <hero-heading title='Create your own!' subtitle='Define exactly what you need.  Public, private, open, closed, professional, personal, online, class registration, whatever you need!'></hero-heading>
     <site-stats></site-stats>
-    <leeg-form-form :value='form' @input='changed'>
+    <leeg-form-form :value='form' @input='changed' @save='save'>
       <template slot='right'>
         <strong>Which best fits your scenario?</strong>
         <ul class="pad-10">
@@ -25,6 +25,7 @@
   import SiteStats from '@/components/SiteStats'
   import HeroHeading from '@/components/HeroHeading'
   import LeegFormForm from '@/components/leegs/form/Form'
+  import { LeegTypes } from '@/store/mutation-types'
 
   export default {
     name: 'LeegNewPage',
@@ -37,6 +38,25 @@
     methods: {
       changed (val) {
         this.form = Object.assign({}, this.form, val)
+      },
+      save () {
+        let self = this
+        self.loading = true
+        self.$toast.open({ type: 'is-info', message: 'saving leeg...' })
+        self.$store.dispatch(LeegTypes.save, this.form).then(resp => {
+          self.loading = false
+          self.$snackbar.open({ type: 'is-success', message: 'Saved ' + self.form.name + '!' })
+        }).catch(err => {
+          self.loading = false
+          self.$dialog.alert({
+            title: 'Error saving leeg!',
+            message: err.toString(),
+            type: 'is-danger',
+            hasIcon: true,
+            icon: 'times-circle',
+            iconPack: 'fa'
+          })
+        })
       }
     },
     components: {

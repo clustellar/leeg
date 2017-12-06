@@ -7,14 +7,15 @@ var express = require('express')
   , findHandler = require('../common/find')
   , filterHandler = require('../common/filter')
   , jsonHandler = require('../common/json')
+  , logoHandler = require('../common/logo')
   , saveHandler = require('../common/save')
   , errors = require('../helpers/errors')
 
 
 router.use('/:leegId/sessions', require('./sessions'))
 
+router.get('/logos', logHandler, modelHandler(Leeg), findHandler.filter, logoHandler)
 router.get('/', logHandler, modelHandler(Leeg), findHandler.filter, filterHandler, jsonHandler)
-router.get('/:name', logHandler, modelHandler(Leeg), findHandler.findByName, filterHandler, jsonHandler)
 router.post('/', logHandler, modelHandler(Leeg), saveHandler.save)
 router.put('/:id', logHandler, modelHandler(Leeg), saveHandler.save)
 

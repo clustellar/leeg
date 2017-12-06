@@ -12,6 +12,9 @@ var leegApi = {
   },
   filter: function (params) {
     return http.get('/leegs', { params: params || {} }).then(parseData)
+  },
+  logo: function (params) {
+    return http.get('/leegs/logos', { params: params || {} }).then(parseData)
   }
 }
 

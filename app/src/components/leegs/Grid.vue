@@ -9,7 +9,7 @@
           <figure class="media-left">
             <p class="image is-256x256">
               <router-link :to="'/leagues/' + leeg.name">
-                <img :src="leeg.logo || 'https://bulma.io/images/placeholders/256x256.png'">
+                <img :src="logos[leeg.name] || 'https://bulma.io/images/placeholders/256x256.png'">
               </router-link>
             </p>
           </figure>
@@ -74,7 +74,8 @@
     },
     computed: {
       ...mapGetters({
-        leegs: LeegTypes.all
+        leegs: LeegTypes.all,
+        logos: LeegTypes.logos
       }),
       filteredLeegs () {
         return this.leegs.filter((leeg) => [leeg.name, leeg.description || ''].join(' ').match(this.filter))
@@ -87,6 +88,7 @@
     },
     beforeCreate () {
       this.$store.dispatch(LeegTypes.filter, this.$route.params || {})
+      this.$store.dispatch(LeegTypes.logo, this.$route.params || {})
     }
   }
 </script>

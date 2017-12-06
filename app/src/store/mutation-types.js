@@ -44,7 +44,8 @@ export const LeegTypes = {
   add: 'Leeg.add',
   remove: 'Leeg.remove',
   save: 'Leeg.save',
-  logo: 'Leeg.logo'
+  logo: 'Leeg.logo',
+  logos: 'Leeg.logos'
 }
 
 export const SessionTypes = {

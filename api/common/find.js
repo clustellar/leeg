@@ -6,10 +6,9 @@ var filterHandler = function (req, res, next) {
   next()
 }
 
-var findByNameHandler = function (Model, req, res, next) {
-  return Model.get({ name: req.params.name }).nth(0).run().then(resp => {
-    next(req, res, next, resp)
-  }).error(errors.error(res))
+var findByNameHandler = function (req, res, next) {
+  req.sequence = req.model.filter({ name: req.params.name })
+  next()
 }
 
 var findByLeegNameHandler = function (Model, req, res, next) {

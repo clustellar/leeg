@@ -5,7 +5,7 @@
         <div class="container">
           <div class="media">
             <div class="media-left">
-              <img :src="logo">
+              <img class='image is-256x256' :src="logo || 'https://bulma.io/images/placeholders/256x256.png'">
             </div>
             <div class="media-content">
               <div class="content">
@@ -78,17 +78,8 @@
     },
     beforeCreate () {
       this.$store.dispatch(LeegTypes.filter, this.$route.params || {})
-      this.$store.dispatch(LeegTypes.logo, this.$route.params.name)
+      this.$store.dispatch(LeegTypes.logo, this.$route.params || {})
     },
     components: {}
   }
 </script>
-
-<style scoped>
-  img.is-round {
-    border-radius: 50%;
-  }
-  .navbar-img {
-    max-height:51px;
-  }
-</style>
