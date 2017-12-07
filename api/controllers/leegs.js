@@ -9,13 +9,10 @@ var express = require('express')
   , jsonHandler = require('../common/json')
   , logoHandler = require('../common/logo')
   , saveHandler = require('../common/save')
-  , errors = require('../helpers/errors')
+  , errors = require('../common/errors')
 
-
-router.use('/:leegId/sessions', require('./sessions'))
-
-router.get('/logos', logHandler, modelHandler(Leeg), findHandler.filter, logoHandler)
-router.get('/', logHandler, modelHandler(Leeg), findHandler.filter, filterHandler, jsonHandler)
+router.get('/logos', logHandler, modelHandler(Leeg), findHandler.find, logoHandler)
+router.get('/', logHandler, modelHandler(Leeg), findHandler.find, filterHandler.leeg, jsonHandler)
 router.post('/', logHandler, modelHandler(Leeg), saveHandler.save)
 router.put('/:id', logHandler, modelHandler(Leeg), saveHandler.save)
 

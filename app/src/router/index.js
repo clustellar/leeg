@@ -30,12 +30,12 @@ export default new Router({
       component: LeegNewPage
     },
     {
-      path: '/leagues/:name/edit',
+      path: '/leagues/:id/edit',
       name: 'LeegEditPage',
       component: LeegEditPage
     },
     {
-      path: '/leagues/:name',
+      path: '/leagues/:id',
       name: 'LeegShowPage',
       component: LeegShowPage
     },
@@ -50,12 +50,12 @@ export default new Router({
       component: OrganizationNewPage
     },
     {
-      path: '/orgs/:name/edit',
+      path: '/orgs/:id/edit',
       name: 'OrganizationEditPage',
       component: OrganizationEditPage
     },
     {
-      path: '/orgs/:name',
+      path: '/orgs/:id',
       name: 'OrganizationShowPage',
       component: OrganizationShowPage
     },
@@ -70,12 +70,12 @@ export default new Router({
       component: GroupNewPage
     },
     {
-      path: '/groups/:name/edit',
+      path: '/groups/:id/edit',
       name: 'GroupEditPage',
       component: GroupEditPage
     },
     {
-      path: '/groups/:name',
+      path: '/groups/:id',
       name: 'GroupShowPage',
       component: GroupShowPage
     },

@@ -1,38 +1,33 @@
-var errors = require('../helpers/errors')
+var errors = require('./errors')
 
-var filterHandler = function (req, res, next) {
+var findHandler = function (req, res, next) {
   console.log('FILTER -> ', req.query)
   req.sequence = req.model.filter(req.query)
   next()
 }
 
 var findByNameHandler = function (req, res, next) {
-  req.sequence = req.model.filter({ name: req.params.name })
+  req.sequence = req.model.filter({ name: req.params.name }).nth(0)
   next()
 }
 
-var findByLeegNameHandler = function (Model, req, res, next) {
-  return Model.filter({ leegId: req.params.leegId }).run().then(resp => {
-    next(req, res, next, resp)
-  }).error(errors.error(res))
+var findByLeegIdHandler = function (Model, req, res, next) {
+  req.sequence = req.model.filter({ leegId: req.params.id }).nth(0)
+  next()
 }
 
 var findByEmailHandler = function (Model, req, res, next) {
-  return Model.filter({ email: req.params.email }).nth(0).run().then(resp => {
-    next(req, res, next, resp)
-  })
-  .error(errors.error(res))
+  req.sequence = req.model.filter({ email: req.params.email }).nth(0)
+  next()
 }
 
 var findByIdHandler = function (Model, req, res, next) {
-  return Model.get(req.params.id).run().then(resp => {
-    next(req, res, next, resp)
-  })
-  .error(errors.error(res))
+  req.sequence = req.model.get(req.params.id)
+  next()
 }
 
-exports.filter = filterHandler
+exports.find = findHandler
 exports.findByName = findByNameHandler
 exports.findByEmail = findByEmailHandler
-exports.findByLeegName = findByLeegNameHandler
+exports.findByLeegId = findByLeegIdHandler
 exports.findById = findByIdHandler

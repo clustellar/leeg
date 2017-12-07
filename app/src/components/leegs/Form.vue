@@ -1,8 +1,8 @@
 <template>
-  <section class='section'>
+  <section class="pad-20">
     <b-loading :active.sync="loading" :canCancel="true"></b-loading>
     <div class="columns">
-      <div class="column is-8">
+      <div class="column">
         <button @click='save' :disabled='pristine' class="button is-success">Save</button>
         <div v-if="isShowing('')">
           <leeg-form-form :logo='logo' :value='form' @input='changed'></leeg-form-form>
@@ -20,9 +20,9 @@
           
         </div>
       </div>
-      <div class="column is-4">
-        <pre>{{ form }}</pre>
-      </div>
+      <!--<div class="column is-4">-->
+      <!--  <pre>{{ form }}</pre>-->
+      <!--</div>-->
     </div>
   </section>
 </template>
@@ -50,10 +50,10 @@
     },
     computed: {
       leeg () {
-        return this.$store.getters[LeegTypes.filter](this.$route.params.name) || {}
+        return this.$store.getters[LeegTypes.filter](this.$route.params.id) || {}
       },
       logo () {
-        return this.$store.getters[LeegTypes.logo](this.$route.params.name) || ''
+        return this.$store.getters[LeegTypes.logo](this.$route.params.id) || ''
       },
       form () {
         return Object.assign({}, this.leeg, this.cache)
@@ -100,6 +100,7 @@
     },
     beforeCreate () {
       this.$store.dispatch(LeegTypes.filter, this.$route.params || {})
+      this.$store.dispatch(LeegTypes.logo, this.$route.params || {})
     },
     components: {
       LeegFormForm,

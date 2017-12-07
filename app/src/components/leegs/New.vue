@@ -2,7 +2,7 @@
   <div class="pad-20">
     <hero-heading title='Create your own!' subtitle='Define exactly what you need.  Public, private, open, closed, professional, personal, online, class registration, whatever you need!'></hero-heading>
     <site-stats></site-stats>
-    <leeg-form-form :value='form' @input='changed' @save='save'>
+    <leeg-form-form :value='form' :logo='form.logo' @input='changed' @save='save'>
       <template slot='right'>
         <strong>Which best fits your scenario?</strong>
         <ul class="pad-10">

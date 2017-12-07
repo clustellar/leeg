@@ -1,6 +1,6 @@
 <template>
   <div class="columns pad-20">
-    <div class="column is-3">
+    <div class="column is-3 notification is-default">
       <aside class="menu" ref='menu'>
         <p class="menu-label">
           General

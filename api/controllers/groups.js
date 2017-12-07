@@ -2,15 +2,16 @@ var express = require('express')
   , router = express.Router()
   , User = require('../models/User')
   , Group = require('../models/Group')
+  , logHandler = require('../common/log')
+  , modelHandler = require('../common/model')
   , findHandler = require('../common/find')
+  , filterHandler = require('../common/filter')
+  , jsonHandler = require('../common/json')
+  , logoHandler = require('../common/logo')
   , saveHandler = require('../common/save')
-  , errors = require('../helpers/errors')
+  , errors = require('../common/errors')
 
-
-// router.get('/', inject(Group, findHandler.filter))
-// router.get('/:name', inject(Group, findHandler.findByName))
-// router.post('/', inject(Group, saveHandler.save))
-// router.put('/:name', inject(Group, saveHandler.save))
+router.get('/', logHandler, modelHandler(Group), findHandler.find, filterHandler.default, jsonHandler)
 
 router.get('/mine', function (req, res, next) {
   if (!req.query.token) {

@@ -10,8 +10,8 @@ var sessionApi = {
     let url = '/leegs/' + leegName + (record.id ? '/sessions/' + record.id : '/sessions')
     return http(Object.assign({}, opts, { method: method, url: url, data: record })).then(parseData)
   },
-  filter: function (leegName, params) {
-    return http.get('/leegs/' + leegName + '/sessions', { params: params || {} }).then(parseData)
+  filter: function (leegId, params) {
+    return http.get('/leegs/' + leegId + '/sessions', { params: params || {} }).then(parseData)
   }
 }
 

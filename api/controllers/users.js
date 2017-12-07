@@ -4,7 +4,7 @@ var express = require('express')
   , User = require('../models/User')
   , findHandler = require('../common/find')
   , saveHandler = require('../common/save')
-  , errors = require('../helpers/errors')
+  , errors = require('../common/errors')
 
 router.get('/me', function (req, res, next) {
   if (!req.query.token) {

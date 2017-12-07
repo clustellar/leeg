@@ -23,7 +23,7 @@
                           <b-icon icon="caret-down"></b-icon>
                         </a>
                         <b-dropdown-item has-link>
-                          <router-link :to="'/leagues/' + leeg.name + '/edit'">
+                          <router-link :to="'/leagues/' + leeg.id + '/edit'">
                             <b-icon icon="pencil"></b-icon>
                             Edit Settings
                           </router-link>
@@ -70,10 +70,10 @@
     },
     computed: {
       leeg () {
-        return this.$store.getters[LeegTypes.filter](this.$route.params.name) || {}
+        return this.$store.getters[LeegTypes.filter](this.$route.params.id) || {}
       },
       logo () {
-        return this.$store.getters[LeegTypes.logo](this.$route.params.name) || ''
+        return this.$store.getters[LeegTypes.logo](this.$route.params.id) || ''
       }
     },
     beforeCreate () {

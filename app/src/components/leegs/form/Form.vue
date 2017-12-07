@@ -1,7 +1,7 @@
 <template>
   <section class='section'>
     <div class="columns">
-      <modal-image-editor v-if="editingLogo" :value="value.logo" @input='setLogo' :active="editingLogo" :onCancel='() => editingLogo = false'></modal-image-editor>
+      <modal-image-editor v-if="editingLogo" :value="logo" @input='setLogo' :active="editingLogo" :onCancel='() => editingLogo = false'></modal-image-editor>
       
       <div class="column">
         <article class="media">

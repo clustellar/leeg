@@ -5,18 +5,18 @@
     </b-field>
     <div class="columns">
       <div class="column is-mobile">
-        <article v-for="leeg in filteredLeegs" :key="leeg.name" class="media">
+        <article v-for="leeg in filteredLeegs" :key="leeg.id" class="media">
           <figure class="media-left">
             <p class="image is-256x256">
-              <router-link :to="'/leagues/' + leeg.name">
-                <img :src="logos[leeg.name] || 'https://bulma.io/images/placeholders/256x256.png'">
+              <router-link :to="'/leagues/' + leeg.id">
+                <img :src="logos[leeg.id] || 'https://bulma.io/images/placeholders/256x256.png'">
               </router-link>
             </p>
           </figure>
           <div class="media-content">
             <div class="content">
               <p>
-                <router-link :to="'/leagues/' + leeg.name">
+                <router-link :to="'/leagues/' + leeg.id">
                   <strong>{{ capitalize(leeg.name) }}</strong>
                 </router-link>
                 <small>{{ leeg.owner }}</small>

@@ -27,11 +27,11 @@
     },
     computed: {
       sessions () {
-        return this.$store.getters[SessionTypes.filter](this.$route.params.name, this.filter) || []
+        return this.$store.getters[SessionTypes.filter](this.$route.params.id, this.filter) || []
       }
     },
     beforeCreate () {
-      this.$store.dispatch(SessionTypes.filter, this.$route.params.name, this.filter)
+      this.$store.dispatch(SessionTypes.filter, this.$route.params.id, this.filter)
     }
   }
 </script>

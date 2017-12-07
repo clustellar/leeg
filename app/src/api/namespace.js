@@ -6,8 +6,8 @@ var parseData = function (resp) {
 
 var namespaceApi = {
   save: function (record, opts) {
-    let method = record.name ? 'PUT' : 'POST'
-    let url = record.name ? '/namespaces/' + record.name : '/namespaces'
+    let method = record.id ? 'PUT' : 'POST'
+    let url = record.id ? '/namespaces/' + record.id : '/namespaces'
     return http(Object.assign({}, opts, { method: method, url: url, data: record })).then(parseData)
   },
   filter: function (params) {

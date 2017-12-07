@@ -11,11 +11,11 @@ const state = {
 const getters = {
   [LeegTypes.all]: state => state.all,
   [LeegTypes.logos]: state => state.logos,
-  [LeegTypes.filter]: state => (name) => {
-    return state.all.find(leeg => leeg.name === name)
+  [LeegTypes.filter]: state => (id) => {
+    return state.all.find(leeg => leeg.id === id)
   },
-  [LeegTypes.logo]: state => (name) => {
-    return state.logos[name]
+  [LeegTypes.logo]: state => (id) => {
+    return state.logos[id]
   }
 }
 
@@ -53,22 +53,22 @@ const actions = {
 // mutations must be synchronous
 const mutations = {
   [LeegTypes.add] (state, resp) {
-    let keys = state.all.map((leeg) => leeg.name) // for uniqueness check
+    let keys = state.all.map((leeg) => leeg.id) // for uniqueness check
 
     if (typeof resp.forEach === 'function') {
       resp.forEach(leeg => {
-        let i = keys.indexOf(leeg.name)
+        let i = keys.indexOf(leeg.id)
         i === -1 ? state.all.push(leeg) : state.all.splice(i, 1, leeg)
       })
-    } else if (resp.name) {
-      let i = keys.indexOf(resp.name)
+    } else if (resp.id) {
+      let i = keys.indexOf(resp.id)
       i === -1 ? state.all.push(resp) : state.all.splice(i, 1, resp)
     }
   },
   [LeegTypes.logo] (state, logos) {
     logos.forEach(function (logo) {
       let obj = {}
-      obj[logo.name] = logo.logo
+      obj[logo.id] = logo.logo
       state.logos = Object.assign({}, state.logos, obj)
     })
   },
