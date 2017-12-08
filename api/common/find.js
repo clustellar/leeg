@@ -11,17 +11,18 @@ var findByNameHandler = function (req, res, next) {
   next()
 }
 
-var findByLeegIdHandler = function (Model, req, res, next) {
-  req.sequence = req.model.filter({ leegId: req.params.id }).nth(0)
+var findByLeegIdHandler = function (req, res, next) {
+  console.log('FIND BY LEEG ID: ', req.params.id)
+  req.sequence = req.model.filter({ leegId: req.params.id })
   next()
 }
 
-var findByEmailHandler = function (Model, req, res, next) {
+var findByEmailHandler = function (req, res, next) {
   req.sequence = req.model.filter({ email: req.params.email }).nth(0)
   next()
 }
 
-var findByIdHandler = function (Model, req, res, next) {
+var findByIdHandler = function (req, res, next) {
   req.sequence = req.model.get(req.params.id)
   next()
 }

@@ -6,6 +6,7 @@ var express = require('express')
   , findHandler = require('../common/find')
   , filterHandler = require('../common/filter')
   , jsonHandler = require('../common/json')
+  , saveHandler = require('../common/save')
 
 
 // router.get('/', function (req, res, next) {
@@ -13,5 +14,7 @@ var express = require('express')
 // })
 
 router.get('/', logHandler, modelHandler(Session), findHandler.findByLeegId, filterHandler.default, jsonHandler)
+router.post('/', logHandler, modelHandler(Session), saveHandler.save)
+router.put('/:id', logHandler, modelHandler(Session), saveHandler.save)
 
 module.exports = router

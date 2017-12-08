@@ -9,6 +9,8 @@ var Session = thinky.createModel('Session', {
   id: type.string(),
   name: type.string(),
   description: type.string(),
+  startAt: type.date().default(r.now()),
+  endAt: type.date().default(r.now() * 90),
   createdAt: type.date().default(r.now()),
   updatedAt: type.date().default(r.now())
 })

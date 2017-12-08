@@ -14,6 +14,7 @@ var leegHandler = function (req, res, next) {
 }
 
 var defaultHandler = function (req, res, next) {
+  console.log('FILTER -> (default)')
   next()
 }
 

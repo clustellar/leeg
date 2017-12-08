@@ -4,6 +4,9 @@
     <div class="columns">
       <div class="column">
         <button @click='save' :disabled='pristine' class="button is-success">Save</button>
+        <router-link :to='newSessionLink' v-if="isShowing('sessions')">
+          <button class="button is-primary">Start new session</button>
+        </router-link>
         <div v-if="isShowing('')">
           <leeg-form-form :logo='logo' :value='form' @input='changed'></leeg-form-form>
         </div>
@@ -69,6 +72,9 @@
       },
       recordsha () {
         return crypto.createHash('sha1').update(JSON.stringify(this.leeg)).digest('hex')
+      },
+      newSessionLink () {
+        return ['/leagues', this.leeg.id, '/sessions/new'].join('/').replace(/\/\//g, '/')
       }
     },
     methods: {

@@ -12,6 +12,7 @@ import GroupNewPage from '@/components/groups/New'
 import LeegNewPage from '@/components/leegs/New'
 import LeegEditPage from '@/components/leegs/Edit'
 import LeegShowPage from '@/components/leegs/Show'
+import SessionNewPage from '@/components/sessions/New'
 import store from '@/store'
 import { GlobalTypes } from '@/store/mutation-types'
 
@@ -38,6 +39,11 @@ export default new Router({
       path: '/leagues/:id',
       name: 'LeegShowPage',
       component: LeegShowPage
+    },
+    {
+      path: '/leagues/:id/sessions/new',
+      name: 'SessionNewPage',
+      component: SessionNewPage
     },
     {
       path: '/orgs',
