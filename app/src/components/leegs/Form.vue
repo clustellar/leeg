@@ -23,9 +23,6 @@
           
         </div>
       </div>
-      <!--<div class="column is-4">-->
-      <!--  <pre>{{ form }}</pre>-->
-      <!--</div>-->
     </div>
   </section>
 </template>
@@ -34,7 +31,7 @@
   import { LeegTypes } from '@/store/mutation-types'
   import LeegFormForm from '@/components/leegs/form/Form'
   import LeegFormPermissions from '@/components/leegs/form/Permissions'
-  import SessionsTable from '@/components/sessions/SessionsTable'
+  import SessionsTable from '@/components/sessions/Table'
   import crypto from 'crypto'
 
   export default {
@@ -53,10 +50,10 @@
     },
     computed: {
       leeg () {
-        return this.$store.getters[LeegTypes.filter](this.$route.params.id) || {}
+        return this.$store.getters[LeegTypes.find](this.$route.params.leegId) || {}
       },
       logo () {
-        return this.$store.getters[LeegTypes.logo](this.$route.params.id) || ''
+        return this.$store.getters[LeegTypes.logo](this.$route.params.leegId) || ''
       },
       form () {
         return Object.assign({}, this.leeg, this.cache)
@@ -103,10 +100,6 @@
           })
         })
       }
-    },
-    beforeCreate () {
-      this.$store.dispatch(LeegTypes.filter, this.$route.params || {})
-      this.$store.dispatch(LeegTypes.logo, this.$route.params || {})
     },
     components: {
       LeegFormForm,

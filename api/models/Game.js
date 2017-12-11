@@ -5,7 +5,7 @@ var thinky = require('./rdb')
 
 var protectedAttributes = ['id', 'createdAt'];
 
-var Group = thinky.createModel('Group', {
+var Game = thinky.createModel('Game', {
   id: type.string(),
   name: type.string(),
   description: type.string(),
@@ -13,12 +13,12 @@ var Group = thinky.createModel('Group', {
   updatedAt: type.date().default(r.now())
 })
 
-Group.ensureIndex('name');
-Group.ensureIndex('createdAt');
+Game.ensureIndex('name');
+Game.ensureIndex('createdAt');
 
-Group.cleanAttributes = function (attrs) {
+Game.cleanAttributes = function (attrs) {
   protectedAttributes.forEach(function (attr) { delete attrs[attr] });
   return attrs
 }
 
-module.exports = Group;
+module.exports = Game;

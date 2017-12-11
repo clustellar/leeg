@@ -68,8 +68,8 @@ attributes:
   - points
   - ranking
 
-### participant | player | student | contestent
-An individual participant within a team unit tied to a particular user.
+### participation | player | student | contestent
+An individual participation within a team unit tied to a particular user.
 
 relations:
   - has one user

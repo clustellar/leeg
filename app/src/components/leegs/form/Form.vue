@@ -83,7 +83,7 @@
       },
       validateName: debounce(function (e) {
         let self = this
-        let name = e.target.value.replace(/\s+/g, '').toLowerCase()
+        let name = e.target.value // .replace(/\s+/g, '').toLowerCase()
         if (e.target.value) {
           this.$emit('input', { name: name })
           this.nameInputType = 'is-info'

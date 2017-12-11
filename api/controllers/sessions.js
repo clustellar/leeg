@@ -13,6 +13,7 @@ var express = require('express')
 //   Session.filter({}).getJoin({ leagues: true}).run().then(resp => res.send(JSON.stringify(resp)))
 // })
 
+// WHY DONT params.leegId show up
 router.get('/', logHandler, modelHandler(Session), findHandler.findByLeegId, filterHandler.default, jsonHandler)
 router.post('/', logHandler, modelHandler(Session), saveHandler.save)
 router.put('/:id', logHandler, modelHandler(Session), saveHandler.save)

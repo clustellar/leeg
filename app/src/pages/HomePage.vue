@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section>
     <div class="container">
       <h1 class="title">Welcome to the Leeg!</h1>
       <p class="subtitle">

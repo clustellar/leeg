@@ -87,8 +87,8 @@
       }
     },
     beforeCreate () {
-      this.$store.dispatch(LeegTypes.filter, this.$route.params || {})
-      this.$store.dispatch(LeegTypes.logo, this.$route.params || {})
+      // this.$store.dispatch(LeegTypes.filter, this.$route.params || {})
+      // this.$store.dispatch(LeegTypes.logo, this.$route.params || {})
     }
   }
 </script>

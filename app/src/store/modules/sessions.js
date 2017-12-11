@@ -1,6 +1,5 @@
 import { SessionTypes } from '../mutation-types'
 import api from '@/api'
-import store from '@/store'
 
 const state = {
   all: []
@@ -9,20 +8,22 @@ const state = {
 // getters
 const getters = {
   [SessionTypes.all]: state => state.all,
-  [SessionTypes.filter]: state => (name) => {
-    return state.all.find(session => session.name === name)
+  [SessionTypes.filter]: state => (leegId) => {
+    return state.all.filter(session => session.leegId === leegId)
+  },
+  [SessionTypes.find]: state => (id) => {
+    return state.all.find(session => session.id === id)
   }
 }
 
 // actions
 const actions = {
-  [SessionTypes.filter] ({ commit }, leegName, opts) {
+  [SessionTypes.filter] ({ commit }, params) {
     api.primus.on('session:feed', (feed) => {
       console.log('SESSION CHANGE: ', feed)
-      console.log(store)
     })
 
-    api.session.filter(leegName, opts).then(resp => commit(SessionTypes.add, resp))
+    api.session.filter(params).then(resp => commit(SessionTypes.add, resp))
   },
   [SessionTypes.save] ({ commit }, leegName, record) {
     return api.session.save(leegName, record).then(resp => commit(SessionTypes.add, resp))

@@ -12,6 +12,9 @@ const getters = {
   [LeegTypes.all]: state => state.all,
   [LeegTypes.logos]: state => state.logos,
   [LeegTypes.filter]: state => (id) => {
+    return state.all.filter(leeg => leeg.id === id)
+  },
+  [LeegTypes.find]: state => (id) => {
     return state.all.find(leeg => leeg.id === id)
   },
   [LeegTypes.logo]: state => (id) => {

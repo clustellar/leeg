@@ -41,6 +41,7 @@ export const UserTypes = {
 export const LeegTypes = {
   all: 'Leeg.all',
   filter: 'Leeg.filter',
+  find: 'Leeg.find',
   add: 'Leeg.add',
   remove: 'Leeg.remove',
   save: 'Leeg.save',
@@ -51,7 +52,26 @@ export const LeegTypes = {
 export const SessionTypes = {
   all: 'Session.all',
   filter: 'Session.filter',
+  find: 'Session.find',
   add: 'Session.add',
   remove: 'Session.remove',
   save: 'Session.save'
+}
+
+export const GameTypes = {
+  all: 'Game.all',
+  filter: 'Game.filter',
+  find: 'Game.find',
+  add: 'Game.add',
+  remove: 'Game.remove',
+  save: 'Game.save'
+}
+
+export const MembershipTypes = {
+  all: 'Membership.all',
+  filter: 'Membership.filter',
+  find: 'Membership.find',
+  add: 'Membership.add',
+  remove: 'Membership.remove',
+  save: 'Membership.save'
 }
